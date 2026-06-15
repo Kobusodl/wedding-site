@@ -8,7 +8,7 @@ pages_build_output_dir = "./public"
 [[d1_databases]]
 binding = "DB"
 database_name = "kobus_anika_wedding"
-database_id = "REPLACE_WITH_YOUR_D1_DATABASE_ID"
+database_id = "c79df351-88d7-44d1-b8bc-b9d6b1bbc29f"
 
 [[r2_buckets]]
 binding = "MEDIA_BUCKET"
