@@ -1,4 +1,4 @@
-import { badRequest, json, mediaUrl, requireAdmin, requireBindings } from '../_shared.js';
+import { badRequest, getMediaStorageStatus, json, mediaUrl, requireAdmin, requireBindings } from '../_shared.js';
 
 export async function onRequestGet({ request, env }) {
   try {
@@ -33,7 +33,9 @@ export async function onRequestGet({ request, env }) {
       notRsvped: notRsvped.length
     };
 
-    return json({ rsvps, expected, media, stats, comparison: { notRsvped, unknownRsvps } });
+    const storage = await getMediaStorageStatus(env);
+
+    return json({ rsvps, expected, media, stats, storage, comparison: { notRsvped, unknownRsvps } });
   } catch (error) {
     return badRequest(error.message || 'Admin verslag kon nie gelaai word nie.', 500);
   }

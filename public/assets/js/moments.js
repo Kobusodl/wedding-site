@@ -30,11 +30,11 @@ function validateBatch(files) {
   const invalidFiles = files.filter((file) => classifyFile(file) === 'other');
 
   if (invalidFiles.length) return 'Gebruik asseblief net foto’s of video’s: jpg, jpeg, png, webp, heic, mp4 of mov.';
-  if (imageFiles.length > 20) return 'Laai asseblief maksimum 20 foto’s op een slag op.';
+  if (imageFiles.length > 30) return 'Laai asseblief maksimum 30 foto’s op een slag op.';
   if (videoFiles.length > 2) return 'Laai asseblief maksimum 2 video’s op een slag op.';
 
   for (const file of imageFiles) {
-    if (file.size > 15 * 1024 * 1024) return `${file.name} is groter as 15 MB.`;
+    if (file.size > 10 * 1024 * 1024) return `${file.name} is groter as 10 MB.`;
   }
   for (const file of videoFiles) {
     if (file.size > 50 * 1024 * 1024) return `${file.name} is groter as 50 MB.`;

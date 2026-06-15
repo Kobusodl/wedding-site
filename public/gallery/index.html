@@ -60,7 +60,7 @@
           <div class="gallery-actions">
             <button class="btn btn-primary" id="open-upload-modal" type="button" data-open-upload>Laai op</button>
             <button class="btn btn-secondary" id="select-all-media" type="button">Kies alles</button>
-            <button class="btn btn-secondary" id="clear-media-selection" type="button">Maak skoon</button>
+            <button class="btn btn-secondary" id="clear-media-selection" type="button">Ontkies alles</button>
             <button class="btn btn-primary" id="download-selected-media" type="button" disabled>Laai gekose items af</button>
           </div>
         </div>
@@ -84,6 +84,8 @@
     <h2 class="section-title" id="upload-title">Laai foto’s of video’s op</h2>
     <p class="lead">Vul die trou-wagwoord in en kies jou foto’s of kort video’s. Die wagwoord is nie hoofletter-sensitief nie.</p>
 
+    <div id="upload-availability" class="status" role="status" aria-live="polite"></div>
+
     <form id="upload-form" class="form" style="margin-top:24px;">
       <div class="form-row">
         <label for="password">Trou-wagwoord</label>
@@ -100,7 +102,7 @@
       <div class="upload-drop">
         <label for="media-files"><strong>Kies foto’s of video’s</strong></label>
         <input id="media-files" name="files" type="file" multiple accept="image/jpeg,image/png,image/webp,image/heic,.heic,video/mp4,video/quicktime,.mov" required>
-        <p class="small-note">Maksimum 20 foto’s of 2 video’s op ’n slag. Foto’s: 15 MB elk. Video’s: 50 MB elk.</p>
+        <p class="small-note">Maksimum 30 foto’s of 2 video’s op ’n slag. Foto’s: 10 MB elk. Video’s: 50 MB elk.</p>
       </div>
       <button class="btn btn-primary full" type="submit">Laai op</button>
       <div id="upload-status" class="status" role="status" aria-live="polite"></div>

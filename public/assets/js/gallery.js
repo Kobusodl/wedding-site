@@ -1,4 +1,5 @@
 let galleryItems = [];
+window.galleryUploadsAvailable = true;
 
 function mediaFileName(item) {
   return item.original_filename || `${item.id}.${item.media_type === 'video' ? 'mp4' : 'jpg'}`;
@@ -41,7 +42,27 @@ function openUploadModal() {
   modal.classList.add('open');
   modal.setAttribute('aria-hidden', 'false');
   document.body.classList.add('locked');
-  setTimeout(() => document.getElementById('password')?.focus(), 50);
+  setTimeout(() => {
+    if (window.galleryUploadsAvailable) document.getElementById('password')?.focus();
+  }, 50);
+}
+
+function applyUploadState(uploadState = {}) {
+  const available = uploadState.available !== false;
+  const message = String(uploadState.message || '');
+  const form = document.getElementById('upload-form');
+  const availability = document.getElementById('upload-availability');
+  window.galleryUploadsAvailable = available;
+
+  if (availability) {
+    availability.textContent = message;
+    availability.className = message ? 'status show info' : 'status';
+  }
+  if (form) {
+    form.querySelectorAll('input, button[type="submit"]').forEach((control) => {
+      control.disabled = !available;
+    });
+  }
 }
 
 function closeUploadModal() {
@@ -188,6 +209,7 @@ async function loadGallery(options = {}) {
     if (!response.ok) throw new Error(result.error || 'Gallery kon nie gelaai word nie.');
     galleryItems = result.items || [];
     renderGallery(galleryItems, options);
+    applyUploadState(result.uploadState || {});
   } catch (error) {
     const empty = document.getElementById('gallery-empty');
     if (empty) {

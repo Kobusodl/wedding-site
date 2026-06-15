@@ -30,16 +30,32 @@ function validateBatch(files) {
   const invalidFiles = files.filter((file) => classifyFile(file) === 'other');
 
   if (invalidFiles.length) return 'Gebruik asseblief net foto’s of video’s: jpg, jpeg, png, webp, heic, mp4 of mov.';
-  if (imageFiles.length > 20) return 'Laai asseblief maksimum 20 foto’s op een slag op.';
+  if (imageFiles.length > 30) return 'Laai asseblief maksimum 30 foto’s op een slag op.';
   if (videoFiles.length > 2) return 'Laai asseblief maksimum 2 video’s op een slag op.';
 
   for (const file of imageFiles) {
-    if (file.size > 15 * 1024 * 1024) return `${file.name} is groter as 15 MB.`;
+    if (file.size > 10 * 1024 * 1024) return `${file.name} is groter as 10 MB.`;
   }
   for (const file of videoFiles) {
     if (file.size > 50 * 1024 * 1024) return `${file.name} is groter as 50 MB.`;
   }
   return '';
+}
+
+async function preflightBatch({ password, files }) {
+  const batchManifest = files.map((file) => ({
+    name: file.name,
+    mediaType: classifyFile(file),
+    size: file.size
+  }));
+  const preflightForm = new FormData();
+  preflightForm.append('password', password);
+  preflightForm.append('preflight', 'true');
+  preflightForm.append('batchManifest', JSON.stringify(batchManifest));
+
+  const response = await fetch('/api/upload', { method: 'POST', body: preflightForm });
+  const result = await response.json().catch(() => ({}));
+  if (!response.ok) throw new Error(result.error || 'Die oplaai-batch kon nie aanvaar word nie.');
 }
 
 if (uploadForm) {
@@ -67,10 +83,13 @@ if (uploadForm) {
     }
 
     submitBtn.disabled = true;
-    uploadStatus('Besig om op te laai...', 'info');
+    uploadStatus('Kontroleer die oplaai-batch...', 'info');
 
     let uploaded = 0;
     try {
+      await preflightBatch({ password, files });
+      uploadStatus('Besig om op te laai...', 'info');
+
       for (const file of files) {
         const itemForm = new FormData();
         itemForm.append('password', password);
@@ -94,7 +113,7 @@ if (uploadForm) {
     } catch (error) {
       uploadStatus(error.message || 'Jammer, iets het fout gegaan met die upload.', 'error');
     } finally {
-      submitBtn.disabled = false;
+      submitBtn.disabled = window.galleryUploadsAvailable === false;
     }
   });
 }

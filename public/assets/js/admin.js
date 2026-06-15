@@ -57,6 +57,20 @@ function renderStats(report) {
   document.getElementById('stat-media').textContent = stats.mediaItems ?? 0;
 }
 
+function formatStorage(bytes) {
+  const value = Number(bytes || 0);
+  if (value >= 1024 * 1024 * 1024) return `${(value / (1024 * 1024 * 1024)).toFixed(2)} GB`;
+  return `${(value / (1024 * 1024)).toFixed(1)} MB`;
+}
+
+function renderStorage(storage = {}) {
+  document.getElementById('storage-upload-status').textContent = storage.uploadsEnabled ? 'Aktief' : 'Gesluit';
+  document.getElementById('storage-media-items').textContent = `${storage.mediaItems ?? 0} / ${storage.mediaItemCap ?? 5000}`;
+  document.getElementById('storage-used').textContent = formatStorage(storage.usedBytes);
+  document.getElementById('storage-cap').textContent = `${storage.storageCapMb ?? 9000} MB`;
+  document.getElementById('storage-remaining').textContent = formatStorage(storage.remainingBytes);
+}
+
 function renderRsvps(rsvps) {
   const tbody = document.getElementById('rsvp-table-body');
   if (!tbody) return;
@@ -129,6 +143,7 @@ async function loadAdminReport() {
   adminState.report = report;
   showAdminApp();
   renderStats(report);
+  renderStorage(report.storage || {});
   renderRsvps(report.rsvps || []);
   renderComparison(report.comparison || {});
   renderMedia(report.media || []);

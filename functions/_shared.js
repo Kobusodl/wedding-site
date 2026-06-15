@@ -51,6 +51,38 @@ export function uploadPasswordMatches(value, env) {
   return Boolean(provided && provided === expected);
 }
 
+export function envNumber(env, key, fallback) {
+  const value = Number(env[key]);
+  return Number.isFinite(value) && value > 0 ? value : fallback;
+}
+
+export function uploadsEnabled(env) {
+  return String(env.UPLOADS_ENABLED ?? 'true').trim().toLowerCase() === 'true';
+}
+
+export async function getMediaStorageStatus(env) {
+  const total = await env.DB.prepare(
+    'SELECT COUNT(*) AS count, COALESCE(SUM(file_size), 0) AS bytes FROM media'
+  ).first();
+  const usedBytes = Number(total?.bytes || 0);
+  const mediaItems = Number(total?.count || 0);
+  const storageCapMb = envNumber(env, 'MAX_TOTAL_STORAGE_MB', 9000);
+  const storageCapBytes = storageCapMb * 1024 * 1024;
+  const mediaItemCap = envNumber(env, 'MAX_TOTAL_MEDIA_ITEMS', 5000);
+
+  return {
+    uploadsEnabled: uploadsEnabled(env),
+    mediaItems,
+    mediaItemCap,
+    usedBytes,
+    storageCapMb,
+    storageCapBytes,
+    remainingBytes: Math.max(0, storageCapBytes - usedBytes),
+    storageFull: usedBytes >= storageCapBytes,
+    itemCapReached: mediaItems >= mediaItemCap
+  };
+}
+
 export function getFileExtension(filename = '') {
   const clean = String(filename).toLowerCase().split('?')[0].split('#')[0];
   const part = clean.includes('.') ? clean.split('.').pop() : '';
