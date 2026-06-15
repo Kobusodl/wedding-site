@@ -1,0 +1,24 @@
+name = "kobus-anika-wedding-site"
+compatibility_date = "2026-06-01"
+pages_build_output_dir = "./public"
+
+# Cloudflare Pages Functions bindings.
+# After creating the D1 database and R2 bucket, replace the placeholder database_id.
+
+[[d1_databases]]
+binding = "DB"
+database_name = "kobus_anika_wedding"
+database_id = "REPLACE_WITH_YOUR_D1_DATABASE_ID"
+
+[[r2_buckets]]
+binding = "MEDIA_BUCKET"
+bucket_name = "kobus-anika-wedding-media"
+
+[vars]
+WEDDING_UPLOAD_PASSWORD = "AKT"
+ADMIN_PASSWORD = "change-this-password"
+MAX_PHOTO_MB = "15"
+MAX_VIDEO_MB = "50"
+MAX_TOTAL_STORAGE_MB = "9000"
+MAX_TOTAL_MEDIA_ITEMS = "1500"
+MAX_UPLOADS_PER_HOUR_PER_IP = "80"

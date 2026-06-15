@@ -1,0 +1,5 @@
+/rsvp /rsvp/ 301
+/gallery /gallery/ 301
+/admin /admin/ 301
+/moments /gallery/ 302
+/moments/ /gallery/ 302

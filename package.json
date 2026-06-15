@@ -1,0 +1,17 @@
+{
+  "name": "kobus-anika-wedding-site",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler pages dev public --compatibility-date=2026-06-01",
+    "deploy": "wrangler pages deploy public --project-name=kobus-anika-wedding-site",
+    "d1:create": "wrangler d1 create kobus_anika_wedding",
+    "d1:schema:local": "wrangler d1 execute kobus_anika_wedding --local --file=./database/schema.sql",
+    "d1:schema:remote": "wrangler d1 execute kobus_anika_wedding --remote --file=./database/schema.sql",
+    "r2:create": "wrangler r2 bucket create kobus-anika-wedding-media"
+  },
+  "devDependencies": {
+    "wrangler": "latest"
+  }
+}

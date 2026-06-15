@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="af">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gallery | Kobus & Anika</title>
+  <meta name="description" content="Kobus & Anika se trougallery: kyk, kies, laai af en deel foto’s.">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+</head>
+<body>
+<a class="skip-link" href="#gallery-main">Spring na gallery</a>
+<header class="desktop-nav" aria-label="Hoof navigasie">
+  <div class="nav-inner">
+    <a class="brand" href="/">Kobus & Anika</a>
+    <nav class="nav-links">
+      <a href="/">Tuisblad</a>
+      <a href="/#besonderhede">Besonderhede</a>
+      <a href="/#skedule">Skedule</a>
+      <a href="/#akkommodasie">Akkommodasie</a>
+      <a href="/rsvp/">RSVP</a>
+      <a class="nav-cta" href="/gallery/">Gallery</a>
+    </nav>
+  </div>
+</header>
+
+<main id="gallery-main">
+  <section class="page-hero gallery-hero" aria-label="Gallery">
+    <div class="container">
+      <div class="page-hero-card fade-in">
+        <p class="eyebrow">Gallery</p>
+        <h1 class="section-title">Deel, kyk en laai af</h1>
+        <p class="lead">Alles gebeur nou hier op een plek. Gaste kan foto’s en video’s sien, items kies om af te laai, of met die trou-password nuwe herinneringe oplaai.</p>
+        <div class="hero-actions">
+          <button class="btn btn-primary" type="button" data-open-upload>Laai foto’s op</button>
+          <a class="btn btn-secondary" href="/rsvp/">RSVP</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section compact">
+    <div class="container">
+      <div class="mobile-section-nav gallery-mobile-nav">
+        <h2>Gallery opsies</h2>
+        <div class="mobile-section-grid">
+          <a href="/">Terug na tuisblad</a>
+          <a href="/rsvp/">RSVP</a>
+          <a href="#gallery-list">Kyk foto’s</a>
+        </div>
+      </div>
+
+      <div class="card gallery-card fade-in" id="gallery-list">
+        <div class="gallery-toolbar">
+          <div>
+            <p class="eyebrow">Foto’s en video’s</p>
+            <h2 class="section-title">Trougallery</h2>
+            <p class="small-note">Tik op ’n foto om dit groter oop te maak. Kies een of meer items en gebruik dan “Laai gekose items af”.</p>
+          </div>
+          <div class="gallery-actions">
+            <button class="btn btn-primary" id="open-upload-modal" type="button" data-open-upload>Laai op</button>
+            <button class="btn btn-secondary" id="select-all-media" type="button">Kies alles</button>
+            <button class="btn btn-secondary" id="clear-media-selection" type="button">Maak skoon</button>
+            <button class="btn btn-primary" id="download-selected-media" type="button" disabled>Laai gekose items af</button>
+          </div>
+        </div>
+
+        <div class="selection-strip" id="selection-strip" hidden>
+          <span id="selection-count">0 items gekies</span>
+          <button class="btn btn-primary" id="download-selected-media-strip" type="button">Laai af</button>
+        </div>
+
+        <div id="gallery-empty" class="empty-state">Die gallery is nog leeg. Op die dag van die troue kan julle hierdie blad gebruik om foto’s en video’s met ons te deel.</div>
+        <div id="gallery-grid" class="gallery-grid" aria-live="polite"></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="modal-overlay" id="upload-modal" aria-hidden="true">
+  <div class="modal-card upload-modal-card" role="dialog" aria-modal="true" aria-labelledby="upload-title">
+    <button class="modal-close" type="button" data-close-upload aria-label="Maak upload toe">×</button>
+    <p class="eyebrow">Upload</p>
+    <h2 class="section-title" id="upload-title">Laai foto’s of video’s op</h2>
+    <p class="lead">Vul die trou-password in en kies jou foto’s of kort video’s. Die password is nie hoofletter-sensitief nie.</p>
+
+    <form id="upload-form" class="form" style="margin-top:24px;">
+      <div class="form-row">
+        <label for="password">Trou-password</label>
+        <input id="password" name="password" required autocomplete="off" placeholder="Byvoorbeeld: AKT">
+      </div>
+      <div class="form-row">
+        <label for="uploaderName">Jou naam, opsioneel</label>
+        <input id="uploaderName" name="uploaderName" autocomplete="name" placeholder="Wie laai op?">
+      </div>
+      <div class="form-row">
+        <label for="uploaderMessage">Kort nota, opsioneel</label>
+        <input id="uploaderMessage" name="uploaderMessage" placeholder="Byvoorbeeld: Tafel 4">
+      </div>
+      <div class="upload-drop">
+        <label for="media-files"><strong>Kies foto’s of video’s</strong></label>
+        <input id="media-files" name="files" type="file" multiple accept="image/jpeg,image/png,image/webp,image/heic,.heic,video/mp4,video/quicktime,.mov" required>
+        <p class="small-note">Maksimum 20 foto’s of 2 video’s op ’n slag. Foto’s: 15 MB elk. Video’s: 50 MB elk.</p>
+      </div>
+      <button class="btn btn-primary full" type="submit">Laai op</button>
+      <div id="upload-status" class="status" role="status" aria-live="polite"></div>
+      <div id="upload-progress" class="progress-list"></div>
+    </form>
+  </div>
+</div>
+
+<div class="modal-overlay" id="media-modal" aria-hidden="true">
+  <div class="modal-card media-modal-card" role="dialog" aria-modal="true" aria-labelledby="media-title">
+    <button class="modal-close" type="button" data-close-media aria-label="Maak voorskou toe">×</button>
+    <div id="media-preview" class="media-preview"></div>
+    <div class="media-modal-footer">
+      <div>
+        <p class="eyebrow" id="media-title">Voorskou</p>
+        <p class="small-note" id="media-filename">Foto of video</p>
+      </div>
+      <a class="btn btn-primary" id="media-download-link" href="#" download>Laai hierdie item af</a>
+    </div>
+  </div>
+</div>
+
+<footer class="footer"><div class="container"><strong>Kobus & Anika</strong><span>Dankie dat julle hierdie dag saam met ons vasvang.</span></div></footer>
+<script src="/assets/js/main.js"></script>
+<script src="/assets/js/gallery.js"></script>
+<script src="/assets/js/upload.js"></script>
+</body>
+</html>

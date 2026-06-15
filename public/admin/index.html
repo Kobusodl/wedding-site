@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="af">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Admin | Kobus & Anika</title>
+  <meta name="robots" content="noindex,nofollow">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+</head>
+<body>
+<header class="desktop-nav" aria-label="Hoof navigasie">
+  <div class="nav-inner">
+    <a class="brand" href="/">Kobus & Anika</a>
+    <nav class="nav-links">
+      <a href="/">Tuisblad</a>
+      <a href="/rsvp/">RSVP</a>
+      <a href="/gallery/">Gallery</a>
+    </nav>
+  </div>
+</header>
+<main>
+  <section class="section">
+    <div class="container">
+      <div class="card" id="admin-login-card">
+        <p class="eyebrow">Admin</p>
+        <h1 class="section-title">Admin dashboard</h1>
+        <p class="lead">Vul die admin password in om RSVP’s, e-poslyste en media te sien.</p>
+        <form id="admin-login-form" class="form" style="margin-top:24px; max-width:520px;">
+          <div class="form-row">
+            <label for="admin-password">Admin password</label>
+            <input id="admin-password" type="password" placeholder="change-this-password" autocomplete="current-password" required>
+          </div>
+          <button class="btn btn-primary" type="submit">Maak dashboard oop</button>
+        </form>
+        <div id="admin-status" class="status" role="status" aria-live="polite" style="margin-top:16px;"></div>
+      </div>
+
+      <div id="admin-app" class="admin-layout" style="display:none;">
+        <aside class="admin-sidebar card">
+          <p class="eyebrow">Opsies</p>
+          <h2 style="margin-top:0; color:var(--olive-deep);">Bestuur</h2>
+          <div class="form">
+            <button class="btn btn-primary full" id="refresh-admin" type="button">Verfris data</button>
+            <button class="btn btn-secondary full" id="export-rsvps" type="button">Laai Excel CSV af</button>
+            <a class="btn btn-soft full" href="/gallery/">Sien Gallery</a>
+          </div>
+          <p class="small-note">CSV lêers kan direk in Excel oopgemaak word.</p>
+        </aside>
+
+        <div class="admin-panel">
+          <section class="card">
+            <p class="eyebrow">Oorsig</p>
+            <h2 class="section-title">RSVP oorsig</h2>
+            <div class="stat-grid">
+              <div class="stat"><strong id="stat-total">0</strong><span>Totale RSVP’s</span></div>
+              <div class="stat"><strong id="stat-yes">0</strong><span>Bywoon</span></div>
+              <div class="stat"><strong id="stat-no">0</strong><span>Nie bywoon nie</span></div>
+              <div class="stat"><strong id="stat-media">0</strong><span>Media items</span></div>
+            </div>
+          </section>
+
+          <section class="card">
+            <p class="eyebrow">Verwagte e-poslys</p>
+            <h2 class="section-title">Vergelyk wie nog nie RSVP het nie</h2>
+            <p class="lead">Plak e-posadresse hier in. As jy uit Excel kopieer, gebruik net kolom A of plak die hele kolom hier.</p>
+            <form id="expected-form" class="form" style="margin-top:20px;">
+              <div class="form-row">
+                <label for="expected-emails">E-posadresse</label>
+                <textarea id="expected-emails" placeholder="persoon1@email.com&#10;persoon2@email.com"></textarea>
+              </div>
+              <button class="btn btn-primary" type="submit">Stoor en vergelyk</button>
+            </form>
+            <div class="grid-2" style="margin-top:24px; align-items:start;">
+              <div class="info-card"><h3>Het nog nie RSVP nie</h3><ul id="not-rsvped-list" class="small-note"><li>Laai eers data.</li></ul></div>
+              <div class="info-card"><h3>Onbekende RSVP’s</h3><ul id="unknown-rsvp-list" class="small-note"><li>Laai eers data.</li></ul></div>
+            </div>
+          </section>
+
+          <section class="card">
+            <p class="eyebrow">RSVP’s</p>
+            <h2 class="section-title">Antwoorde</h2>
+            <div class="table-wrap" style="margin-top:20px;">
+              <table>
+                <thead><tr><th>Naam</th><th>E-pos</th><th>Bywoon</th><th>Liedjie</th><th>Boodskap</th><th>Datum</th></tr></thead>
+                <tbody id="rsvp-table-body"></tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="card">
+            <p class="eyebrow">Media</p>
+            <h2 class="section-title">Uploads</h2>
+            <div id="admin-media-list" style="margin-top:20px;"></div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+<footer class="footer"><div class="container"><strong>Kobus & Anika</strong><span>Admin area</span></div></footer>
+<script src="/assets/js/main.js"></script>
+<script src="/assets/js/admin.js"></script>
+</body>
+</html>

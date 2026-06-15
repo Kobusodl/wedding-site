@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="af">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RSVP | Kobus & Anika</title>
+  <meta name="description" content="RSVP vir Kobus & Anika se troue.">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+</head>
+<body>
+<header class="desktop-nav" aria-label="Hoof navigasie">
+  <div class="nav-inner">
+    <a class="brand" href="/">Kobus & Anika</a>
+    <nav class="nav-links">
+      <a href="/#besonderhede">Besonderhede</a>
+      <a href="/#skedule">Skedule</a>
+      <a href="/#akkommodasie">Akkommodasie</a>
+      <a href="/gallery/">Gallery</a>
+      <a class="nav-cta" href="/rsvp/">RSVP</a>
+    </nav>
+  </div>
+</header>
+<main>
+  <section class="section">
+    <div class="container split">
+      <div class="fade-in">
+        <p class="eyebrow">RSVP</p>
+        <h1 class="section-title">Laat weet ons asseblief</h1>
+        <p class="lead">Vul asseblief jou RSVP teen <strong>31 Augustus 2026</strong> in. Die vorm is kort en maklik.</p>
+        <div class="mobile-section-nav" style="display:block; width:100%; margin:24px 0 0;">
+          <div class="mobile-section-grid">
+            <a href="/">Terug na tuisblad</a>
+                  <a href="/gallery/">Gallery</a>
+          </div>
+        </div>
+      </div>
+      <div class="card solid fade-in">
+        <form id="rsvp-form" class="form">
+          <div class="form-row">
+            <label for="fullName">Naam & Van</label>
+            <input id="fullName" name="fullName" autocomplete="name" required placeholder="Jou naam en van">
+          </div>
+          <div class="form-row">
+            <label for="email">E-posadres</label>
+            <input id="email" name="email" type="email" autocomplete="email" required placeholder="jou@email.co.za">
+          </div>
+          <div class="form-row">
+            <label>Gaan jy die troue bywoon?</label>
+            <div class="radio-grid">
+              <label class="radio-card"><input type="radio" name="attending" value="yes" required> Ja, ek sal daar wees</label>
+              <label class="radio-card"><input type="radio" name="attending" value="no" required> Nee, ongelukkig nie</label>
+            </div>
+          </div>
+          <div class="form-row">
+            <label for="songRequest">Liedjie-versoek</label>
+            <input id="songRequest" name="songRequest" placeholder="Watter liedjie wil jy hoor?">
+          </div>
+          <div class="form-row">
+            <label for="message">Kort boodskap, opsioneel</label>
+            <textarea id="message" name="message" placeholder="Los gerus ’n kort boodskap vir ons..."></textarea>
+          </div>
+          <button class="btn btn-primary full" type="submit">Stuur RSVP</button>
+          <div id="rsvp-status" class="status" role="status" aria-live="polite"></div>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+<footer class="footer"><div class="container"><strong>Kobus & Anika</strong><span>Dankie dat jy laat weet.</span></div></footer>
+<script src="/assets/js/main.js"></script>
+<script src="/assets/js/rsvp.js"></script>
+</body>
+</html>
