@@ -53,7 +53,7 @@ if (uploadForm) {
     const files = Array.from(document.getElementById('media-files')?.files || []);
 
     if (!password) {
-      uploadStatus('Vul asseblief die trou-password in.', 'error');
+      uploadStatus('Vul asseblief die trou-wagwoord in.', 'error');
       return;
     }
     if (!files.length) {

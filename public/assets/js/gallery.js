@@ -74,7 +74,7 @@ function openMediaModal(item) {
   } else {
     el = document.createElement('img');
     el.src = item.url;
-    el.alt = item.original_filename || 'Wedding foto';
+    el.alt = item.original_filename || 'Troufoto';
   }
   preview.appendChild(el);
 
@@ -136,7 +136,7 @@ function renderGallery(items, options = {}) {
     } else {
       mediaEl = document.createElement('img');
       mediaEl.src = item.url;
-      mediaEl.alt = item.original_filename || 'Wedding foto';
+      mediaEl.alt = item.original_filename || 'Troufoto';
       mediaEl.loading = 'lazy';
     }
     mediaButton.appendChild(mediaEl);

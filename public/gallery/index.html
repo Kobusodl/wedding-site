@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Gallery | Kobus & Anika</title>
   <meta name="description" content="Kobus & Anika se trougallery: kyk, kies, laai af en deel foto’s.">
+  <link rel="icon" href="/assets/icons/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/assets/css/styles.css">
 </head>
 <body>
@@ -29,7 +30,7 @@
       <div class="page-hero-card fade-in">
         <p class="eyebrow">Gallery</p>
         <h1 class="section-title">Deel, kyk en laai af</h1>
-        <p class="lead">Alles gebeur nou hier op een plek. Gaste kan foto’s en video’s sien, items kies om af te laai, of met die trou-password nuwe herinneringe oplaai.</p>
+        <p class="lead">Alles gebeur hier op een plek. Kyk na foto’s en video’s, kies items om af te laai, of voeg met die trou-wagwoord nuwe herinneringe by.</p>
         <div class="hero-actions">
           <button class="btn btn-primary" type="button" data-open-upload>Laai foto’s op</button>
           <a class="btn btn-secondary" href="/rsvp/">RSVP</a>
@@ -54,7 +55,7 @@
           <div>
             <p class="eyebrow">Foto’s en video’s</p>
             <h2 class="section-title">Trougallery</h2>
-            <p class="small-note">Tik op ’n foto om dit groter oop te maak. Kies een of meer items en gebruik dan “Laai gekose items af”.</p>
+            <p class="small-note">Tik op ’n item om dit groter oop te maak of af te laai. Kies een of meer items en gebruik dan “Laai gekose items af”.</p>
           </div>
           <div class="gallery-actions">
             <button class="btn btn-primary" id="open-upload-modal" type="button" data-open-upload>Laai op</button>
@@ -79,13 +80,13 @@
 <div class="modal-overlay" id="upload-modal" aria-hidden="true">
   <div class="modal-card upload-modal-card" role="dialog" aria-modal="true" aria-labelledby="upload-title">
     <button class="modal-close" type="button" data-close-upload aria-label="Maak upload toe">×</button>
-    <p class="eyebrow">Upload</p>
+    <p class="eyebrow">Laai op</p>
     <h2 class="section-title" id="upload-title">Laai foto’s of video’s op</h2>
-    <p class="lead">Vul die trou-password in en kies jou foto’s of kort video’s. Die password is nie hoofletter-sensitief nie.</p>
+    <p class="lead">Vul die trou-wagwoord in en kies jou foto’s of kort video’s. Die wagwoord is nie hoofletter-sensitief nie.</p>
 
     <form id="upload-form" class="form" style="margin-top:24px;">
       <div class="form-row">
-        <label for="password">Trou-password</label>
+        <label for="password">Trou-wagwoord</label>
         <input id="password" name="password" required autocomplete="off" placeholder="Byvoorbeeld: AKT">
       </div>
       <div class="form-row">

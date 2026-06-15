@@ -17,6 +17,10 @@ function updateCountdown() {
   setText('count-hours', hours.toString().padStart(2, '0'));
   setText('count-minutes', minutes.toString().padStart(2, '0'));
   setText('count-seconds', seconds.toString().padStart(2, '0'));
+  setText('mobile-count-days', days.toString());
+  setText('mobile-count-hours', hours.toString().padStart(2, '0'));
+  setText('mobile-count-minutes', minutes.toString().padStart(2, '0'));
+  setText('mobile-count-seconds', seconds.toString().padStart(2, '0'));
 }
 
 function initRevealAnimations() {

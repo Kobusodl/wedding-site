@@ -141,7 +141,7 @@ if (loginForm) {
     event.preventDefault();
     const password = getPassword();
     if (!password) {
-      adminStatus('Vul asseblief die admin password in.', 'error');
+      adminStatus('Vul asseblief die admin-wagwoord in.', 'error');
       return;
     }
     sessionStorage.setItem('adminPassword', password);

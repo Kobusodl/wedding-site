@@ -5,9 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Admin | Kobus & Anika</title>
   <meta name="robots" content="noindex,nofollow">
+  <link rel="icon" href="/assets/icons/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/assets/css/styles.css">
 </head>
 <body>
+<a class="skip-link" href="#main">Spring na inhoud</a>
 <header class="desktop-nav" aria-label="Hoof navigasie">
   <div class="nav-inner">
     <a class="brand" href="/">Kobus & Anika</a>
@@ -18,19 +20,19 @@
     </nav>
   </div>
 </header>
-<main>
-  <section class="section">
+<main id="main">
+  <section class="page-section admin-page">
     <div class="container">
       <div class="card" id="admin-login-card">
         <p class="eyebrow">Admin</p>
-        <h1 class="section-title">Admin dashboard</h1>
-        <p class="lead">Vul die admin password in om RSVP’s, e-poslyste en media te sien.</p>
+        <h1 class="section-title">Adminpaneel</h1>
+        <p class="lead">Vul die admin-wagwoord in om RSVP’s, e-poslyste en media te sien.</p>
         <form id="admin-login-form" class="form" style="margin-top:24px; max-width:520px;">
           <div class="form-row">
-            <label for="admin-password">Admin password</label>
+            <label for="admin-password">Admin-wagwoord</label>
             <input id="admin-password" type="password" placeholder="change-this-password" autocomplete="current-password" required>
           </div>
-          <button class="btn btn-primary" type="submit">Maak dashboard oop</button>
+          <button class="btn btn-primary" type="submit">Maak adminpaneel oop</button>
         </form>
         <div id="admin-status" class="status" role="status" aria-live="polite" style="margin-top:16px;"></div>
       </div>
@@ -44,7 +46,7 @@
             <button class="btn btn-secondary full" id="export-rsvps" type="button">Laai Excel CSV af</button>
             <a class="btn btn-soft full" href="/gallery/">Sien Gallery</a>
           </div>
-          <p class="small-note">CSV lêers kan direk in Excel oopgemaak word.</p>
+          <p class="small-note">CSV-lêers kan direk in Excel oopgemaak word.</p>
         </aside>
 
         <div class="admin-panel">
@@ -97,7 +99,7 @@
     </div>
   </section>
 </main>
-<footer class="footer"><div class="container"><strong>Kobus & Anika</strong><span>Admin area</span></div></footer>
+<footer class="footer"><div class="container"><strong>Kobus & Anika</strong><span>Administrasie</span></div></footer>
 <script src="/assets/js/main.js"></script>
 <script src="/assets/js/admin.js"></script>
 </body>
