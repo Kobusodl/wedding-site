@@ -78,12 +78,12 @@ function renderRsvps(rsvps) {
   for (const rsvp of rsvps) {
     const tr = document.createElement('tr');
     tr.innerHTML = `
-      <td>${escapeHtml(rsvp.full_name)}</td>
-      <td>${escapeHtml(rsvp.email)}</td>
-      <td>${rsvp.attending === 'yes' ? 'Ja' : 'Nee'}</td>
-      <td>${escapeHtml(rsvp.song_request || '')}</td>
-      <td>${escapeHtml(rsvp.message || '')}</td>
-      <td>${formatDate(rsvp.created_at)}</td>
+      <td data-label="Naam">${escapeHtml(rsvp.full_name)}</td>
+      <td data-label="E-pos">${escapeHtml(rsvp.email)}</td>
+      <td data-label="Bywoon">${rsvp.attending === 'yes' ? 'Ja' : 'Nee'}</td>
+      <td data-label="Liedjie">${escapeHtml(rsvp.song_request || '—')}</td>
+      <td data-label="Boodskap">${escapeHtml(rsvp.message || '—')}</td>
+      <td data-label="Datum">${formatDate(rsvp.created_at)}</td>
     `;
     tbody.appendChild(tr);
   }

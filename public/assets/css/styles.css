@@ -1402,3 +1402,146 @@ select {
     transform: none;
   }
 }
+
+/* Phone-friendly admin layout */
+@media (max-width: 640px) {
+  .admin-page {
+    padding-top: 28px;
+  }
+
+  #admin-login-card,
+  .admin-sidebar,
+  .admin-panel > .card {
+    padding: 20px;
+    border-radius: 22px;
+  }
+
+  #admin-login-form .btn,
+  .admin-sidebar .btn,
+  #expected-form .btn {
+    width: 100%;
+  }
+
+  .admin-layout,
+  .admin-panel {
+    gap: 14px;
+  }
+
+  .admin-sidebar .form {
+    gap: 10px;
+  }
+
+  .admin-page .section-title {
+    font-size: clamp(2.15rem, 10vw, 3rem);
+  }
+
+  .admin-page .stat-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 9px;
+  }
+
+  .admin-page .stat {
+    min-width: 0;
+    padding: 14px 12px;
+    border-radius: 16px;
+  }
+
+  .admin-page .stat strong {
+    font-size: clamp(1.35rem, 7vw, 1.8rem);
+    overflow-wrap: anywhere;
+  }
+
+  .admin-page .stat span {
+    font-size: .72rem;
+  }
+
+  .admin-page .info-card {
+    padding: 18px;
+    border-radius: 18px;
+  }
+
+  .admin-page ul {
+    padding-left: 18px;
+    overflow-wrap: anywhere;
+  }
+
+  .admin-rsvp-table {
+    overflow: visible;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+  }
+
+  .admin-rsvp-table table,
+  .admin-rsvp-table tbody,
+  .admin-rsvp-table tr,
+  .admin-rsvp-table td {
+    display: block;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .admin-rsvp-table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .admin-rsvp-table tr {
+    margin-bottom: 12px;
+    padding: 10px 14px;
+    border: 1px solid rgba(98, 106, 89, .14);
+    border-radius: 18px;
+    background: rgba(255, 255, 255, .72);
+  }
+
+  .admin-rsvp-table td {
+    display: grid;
+    grid-template-columns: 82px minmax(0, 1fr);
+    gap: 10px;
+    padding: 9px 0;
+    border-bottom: 1px solid rgba(98, 106, 89, .1);
+    overflow-wrap: anywhere;
+  }
+
+  .admin-rsvp-table td:last-child {
+    border-bottom: 0;
+  }
+
+  .admin-rsvp-table td::before {
+    content: attr(data-label);
+    color: var(--olive-dark);
+    font-size: .72rem;
+    font-weight: 850;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+  }
+
+  .admin-media-row {
+    padding: 14px 0;
+    gap: 10px;
+  }
+
+  .admin-media-row > div:nth-child(2) {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .admin-media-row > div:last-child {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px !important;
+  }
+
+  .admin-media-row > div:last-child .btn {
+    width: 100%;
+    min-height: 46px;
+    padding: 11px 10px;
+  }
+}
