@@ -50,20 +50,7 @@ function initContributionToggle() {
   });
 }
 
-function initVideoFallback() {
-  const video = document.querySelector('video[data-mobile-hero]');
-  if (!video) return;
-  video.addEventListener('error', () => {
-    const fallback = document.createElement('img');
-    fallback.src = '/assets/images/hero-fallback.jpg';
-    fallback.alt = 'Kobus & Anika';
-    fallback.style.borderRadius = '24px';
-    video.replaceWith(fallback);
-  });
-}
-
 updateCountdown();
 setInterval(updateCountdown, 1000);
 initRevealAnimations();
 initContributionToggle();
-initVideoFallback();

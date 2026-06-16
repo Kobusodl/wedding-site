@@ -16,6 +16,7 @@
       <a class="brand" href="/">Kobus & Anika</a>
       <nav class="nav-links">
         <a href="#besonderhede">Besonderhede</a>
+        <a href="#kleredrag">Kleredrag</a>
         <a href="#skedule">Skedule</a>
         <a href="#akkommodasie">Akkommodasie</a>
         <a href="#bydrae">Bydrae</a>
@@ -26,53 +27,42 @@
   </header>
 
   <main id="main">
-    <section class="hero-desktop" aria-label="Kobus en Anika troue">
-      <div class="hero-frame">
-        <div class="hero-content fade-in">
+    <section class="hero-gallery" aria-label="Kobus en Anika troue">
+      <div class="hero-gallery-shell">
+        <div class="hero-gallery-copy fade-in">
           <p class="eyebrow">Ons trou</p>
           <h1 class="hero-title">Kobus &<br>Anika</h1>
           <p class="hero-date">5 November 2026</p>
-          <p class="lead">Ons kan nie wag om ons spesiale dag saam met julle te vier nie.</p>
+          <p class="lead">Venue Nouveau</p>
           <div class="hero-actions">
             <a class="btn btn-primary" href="/rsvp/">RSVP</a>
-            <a class="btn btn-secondary" href="/gallery/">Gaan na Gallery</a>
+            <a class="btn btn-secondary" href="/gallery/">Gallery</a>
           </div>
-          <div class="hero-meta" aria-label="Trou besonderhede">
-            <div class="meta-pill"><strong>Datum</strong><span>5 November 2026</span></div>
-            <div class="meta-pill"><strong>Tyd</strong><span>16:00</span></div>
-            <div class="meta-pill"><strong>Venue</strong><span>Venue Nouveau</span></div>
+        </div>
+        <div class="hero-marquee fade-in" aria-label="Foto's van Kobus en Anika">
+          <div class="hero-marquee-track">
+            <figure class="hero-gallery-card"><img src="/assets/images/hero-gallery-1.jpg" alt="Kobus en Anika save the date foto" onerror="this.closest('.hero-gallery-card').classList.add('image-missing'); this.remove();"></figure>
+            <figure class="hero-gallery-card"><img src="/assets/images/hero-gallery-2.jpg" alt="Kobus en Anika saam in die veld" onerror="this.closest('.hero-gallery-card').classList.add('image-missing'); this.remove();"></figure>
+            <figure class="hero-gallery-card"><img src="/assets/images/hero-gallery-3.jpg" alt="Kobus en Anika glimlag saam" onerror="this.closest('.hero-gallery-card').classList.add('image-missing'); this.remove();"></figure>
+            <figure class="hero-gallery-card"><img src="/assets/images/hero-gallery-4.jpg" alt="Kobus en Anika vier hul save the date" onerror="this.closest('.hero-gallery-card').classList.add('image-missing'); this.remove();"></figure>
+            <figure class="hero-gallery-card"><img src="/assets/images/hero-gallery-5.jpg" alt="Kobus met die save the date bottel" onerror="this.closest('.hero-gallery-card').classList.add('image-missing'); this.remove();"></figure>
+            <figure class="hero-gallery-card" aria-hidden="true"><img src="/assets/images/hero-gallery-1.jpg" alt="" onerror="this.closest('.hero-gallery-card').classList.add('image-missing'); this.remove();"></figure>
+            <figure class="hero-gallery-card" aria-hidden="true"><img src="/assets/images/hero-gallery-2.jpg" alt="" onerror="this.closest('.hero-gallery-card').classList.add('image-missing'); this.remove();"></figure>
+            <figure class="hero-gallery-card" aria-hidden="true"><img src="/assets/images/hero-gallery-3.jpg" alt="" onerror="this.closest('.hero-gallery-card').classList.add('image-missing'); this.remove();"></figure>
+            <figure class="hero-gallery-card" aria-hidden="true"><img src="/assets/images/hero-gallery-4.jpg" alt="" onerror="this.closest('.hero-gallery-card').classList.add('image-missing'); this.remove();"></figure>
+            <figure class="hero-gallery-card" aria-hidden="true"><img src="/assets/images/hero-gallery-5.jpg" alt="" onerror="this.closest('.hero-gallery-card').classList.add('image-missing'); this.remove();"></figure>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="mobile-video-hero" aria-label="Video van Kobus en Anika">
-      <div class="mobile-video-card">
-        <video data-mobile-hero autoplay muted loop playsinline controls poster="/assets/images/hero-fallback.jpg">
-          <source src="/assets/videos/mobile-hero.mp4" type="video/mp4">
-        </video>
-      </div>
-      <div class="mobile-intro fade-in">
-        <p class="eyebrow">Ons trou</p>
-        <h1 class="display-title">Kobus & Anika</h1>
-        <p class="lead">5 November 2026 • Venue Nouveau • 16:00</p>
-        <div class="mobile-countdown-label">Nog net</div>
-        <div class="countdown countdown-mobile" aria-live="polite">
-          <div class="count-box"><strong id="mobile-count-days">0</strong><span>Dae</span></div>
-          <div class="count-box"><strong id="mobile-count-hours">00</strong><span>Ure</span></div>
-          <div class="count-box"><strong id="mobile-count-minutes">00</strong><span>Minute</span></div>
-          <div class="count-box"><strong id="mobile-count-seconds">00</strong><span>Sekondes</span></div>
-        </div>
-        <div class="hero-actions" style="justify-content:center;">
-          <a class="btn btn-primary" href="/rsvp/">RSVP</a>
-          <a class="btn btn-secondary" href="/gallery/">Gallery</a>
-        </div>
-      </div>
+    <section class="mobile-quick-nav" aria-label="Mobiele seksies">
       <nav class="mobile-section-nav" aria-label="Mobiele seksies">
         <h2>Waarheen wil jy gaan?</h2>
         <div class="mobile-section-grid">
           <a href="/rsvp/">RSVP</a>
           <a href="#besonderhede">Besonderhede</a>
+          <a href="#kleredrag">Kleredrag</a>
           <a href="#skedule">Skedule</a>
           <a href="#akkommodasie">Akkommodasie</a>
           <a href="#bydrae">Bydrae</a>
@@ -81,16 +71,41 @@
       </nav>
     </section>
 
-    <section class="section compact" id="aftelling">
+    <section class="section compact save-date-section" id="aftelling">
       <div class="container">
-        <div class="card solid countdown-card fade-in">
-          <p class="eyebrow">Aftelling</p>
-          <h2 class="section-title">Tot ons groot dag</h2>
-          <div class="countdown" aria-live="polite">
+        <div class="save-date-wrap fade-in">
+          <div class="save-date-card">
+            <div class="save-date-photo-card">
+              <div class="save-date-photo-frame">
+                <img src="/assets/images/save-date-photo.jpg" alt="Kobus en Anika op die strand" onerror="this.closest('.save-date-photo-frame').classList.add('image-missing'); this.remove();">
+              </div>
+              <p>Kobus & Anika</p>
+              <strong>Odendaal Troue</strong>
+            </div>
+
+            <div class="save-date-details">
+              <p class="save-date-label">Hou die datum oop</p>
+              <h2>5 November 2026</h2>
+              <div class="mini-calendar" aria-label="November 2026 kalender">
+                <span>So</span><span>Ma</span><span>Di</span><span>Wo</span><span>Do</span><span>Vr</span><span>Sa</span>
+                <b>1</b><b>2</b><b>3</b><b>4</b><b class="wedding-day">5</b><b>6</b><b>7</b>
+                <b>8</b><b>9</b><b>10</b><b>11</b><b>12</b><b>13</b><b>14</b>
+                <b>15</b><b>16</b><b>17</b><b>18</b><b>19</b><b>20</b><b>21</b>
+                <b>22</b><b>23</b><b>24</b><b>25</b><b>26</b><b>27</b><b>28</b>
+                <b>29</b><b>30</b><i></i><i></i><i></i><i></i><i></i>
+              </div>
+              <a class="btn save-date-button" href="/assets/calendar/kobus-anika-troue.ics" download>Voeg by kalender</a>
+            </div>
+          </div>
+
+          <div class="save-date-countdown">
+            <p class="eyebrow">Aftelling</p>
+            <div class="countdown" aria-live="polite">
             <div class="count-box"><strong id="count-days">0</strong><span>Dae</span></div>
             <div class="count-box"><strong id="count-hours">00</strong><span>Ure</span></div>
             <div class="count-box"><strong id="count-minutes">00</strong><span>Minute</span></div>
             <div class="count-box"><strong id="count-seconds">00</strong><span>Sekondes</span></div>
+            </div>
           </div>
         </div>
       </div>
@@ -133,6 +148,29 @@
       </div>
     </section>
 
+    <section class="section dress-code-section" id="kleredrag">
+      <div class="container split dress-code-layout">
+        <div class="dress-code-copy fade-in">
+          <p class="eyebrow">Garden Party</p>
+          <h2 class="section-title">Dress Code</h2>
+          <p class="lead">Ons wil graag hê ons gaste moet gemaklik, netjies en mooi voel op die dag. Die kleredrag is Garden Party, semi-formeel; dink sagte kleure, elegante rokke, netjiese hemde, chinos, pakbaadjies of ligte formele uitrustings.</p>
+          <p class="lead">Vermy asseblief baie helder neonkleure en heeltemal swart uitrustings.</p>
+          <div class="dress-code-note">
+            <p class="eyebrow">Inspirasie</p>
+            <p>Sagte pastelkleure, olyfgroen, ligblou, sagte pienk, room, beige en ligte aardse kleure.</p>
+          </div>
+        </div>
+        <div class="dress-code-moodboard fade-in" aria-label="Dress code inspirasie">
+          <img src="/assets/images/dress-code-1.jpg" alt="Kleurpalet inspirasie vir semi-formele kleredrag">
+          <img src="/assets/images/dress-code-2.jpg" alt="Semi-formele rokke en uitrustings in sagte kleure">
+          <img src="/assets/images/dress-code-3.jpg" alt="Dress code inspirasie vir gaste">
+          <img src="/assets/images/dress-code-4.jpg" alt="Rok inspirasie in sagte pastelkleure">
+          <img src="/assets/images/dress-code-5.jpg" alt="Mans uitrustings in sagte semi-formele kleure">
+          <img src="/assets/images/dress-code-6.jpg" alt="Pastel en olyfgroen kleurinspirasie">
+        </div>
+      </div>
+    </section>
+
     <section class="section" id="skedule">
       <div class="container split">
         <div class="single-photo fade-in">
@@ -143,8 +181,8 @@
           <h2 class="section-title">Eenvoudige tydlyn</h2>
           <p class="lead">Ons hou die skedule vir nou eenvoudig. Meer besonderhede sal nader aan die dag gedeel word.</p>
           <div class="timeline">
-            <div class="timeline-item"><strong>16:00 — Seremonie</strong><span>Kom asseblief betyds sodat almal gemaklik kan sit.</span></div>
-            <div class="timeline-item"><strong>Onthaal daarna</strong><span>Ons vier saam net ná die seremonie.</span></div>
+            <div class="timeline-item"><strong>16:00 — Seremonie</strong><span>Kom asseblief betyds sodat almal rustig kan aankom en sit.</span></div>
+            <div class="timeline-item"><strong>Meer besonderhede volg</strong><span>Ons sal die volledige program nader aan die troue met julle deel.</span></div>
           </div>
         </div>
       </div>
