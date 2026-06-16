@@ -89,22 +89,18 @@
     <form id="upload-form" class="form" style="margin-top:24px;">
       <div class="form-row">
         <label for="password">Trou-wagwoord</label>
-        <input id="password" name="password" required autocomplete="off" placeholder="Byvoorbeeld: AKT">
+        <input id="password" name="password" required autocomplete="off" placeholder="Hint: Bride/Groom Surname">
       </div>
       <div class="form-row">
         <label for="uploaderName">Jou naam, opsioneel</label>
         <input id="uploaderName" name="uploaderName" autocomplete="name" placeholder="Wie laai op?">
-      </div>
-      <div class="form-row">
-        <label for="uploaderMessage">Kort nota, opsioneel</label>
-        <input id="uploaderMessage" name="uploaderMessage" placeholder="Byvoorbeeld: Tafel 4">
       </div>
       <div class="upload-drop">
         <label for="media-files"><strong>Kies foto’s of video’s</strong></label>
         <input id="media-files" name="files" type="file" multiple accept="image/jpeg,image/png,image/webp,image/heic,.heic,video/mp4,video/quicktime,.mov" required>
         <p class="small-note">Maksimum 30 foto’s of 2 video’s op ’n slag. Foto’s: 10 MB elk. Video’s: 50 MB elk.</p>
       </div>
-      <button class="btn btn-primary full" type="submit">Laai op</button>
+      <button class="btn btn-primary full upload-submit" type="submit">Laai op</button>
       <div id="upload-status" class="status" role="status" aria-live="polite"></div>
       <div id="upload-progress" class="progress-list"></div>
     </form>

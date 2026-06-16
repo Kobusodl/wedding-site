@@ -15,8 +15,8 @@ binding = "MEDIA_BUCKET"
 bucket_name = "kobus-anika-wedding-media"
 
 [vars]
-WEDDING_UPLOAD_PASSWORD = "AKT"
-ADMIN_PASSWORD = "change-this-password"
+WEDDING_UPLOAD_PASSWORD = "Odendaal"
+ADMIN_PASSWORD = "Odendaal"
 MAX_PHOTO_MB = "15"
 MAX_VIDEO_MB = "100"
 MAX_TOTAL_STORAGE_MB = "9500"
