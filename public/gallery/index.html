@@ -110,7 +110,11 @@
 <div class="modal-overlay" id="media-modal" aria-hidden="true">
   <div class="modal-card media-modal-card" role="dialog" aria-modal="true" aria-labelledby="media-title">
     <button class="modal-close" type="button" data-close-media aria-label="Maak voorskou toe">×</button>
-    <div id="media-preview" class="media-preview"></div>
+    <div class="media-preview-shell">
+      <button class="media-nav media-nav-prev" id="media-prev" type="button" aria-label="Vorige item">‹</button>
+      <div id="media-preview" class="media-preview"></div>
+      <button class="media-nav media-nav-next" id="media-next" type="button" aria-label="Volgende item">›</button>
+    </div>
     <div class="media-modal-footer">
       <div>
         <p class="eyebrow" id="media-title">Voorskou</p>

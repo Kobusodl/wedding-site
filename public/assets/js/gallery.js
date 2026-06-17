@@ -1,4 +1,7 @@
 let galleryItems = [];
+let currentMediaIndex = -1;
+let mediaTouchStartX = 0;
+let mediaTouchStartY = 0;
 window.galleryUploadsAvailable = true;
 
 function mediaFileName(item) {
@@ -73,7 +76,15 @@ function closeUploadModal() {
   document.body.classList.remove('locked');
 }
 
-function openMediaModal(item) {
+function setMediaNavState() {
+  const prev = document.getElementById('media-prev');
+  const next = document.getElementById('media-next');
+  const hasMultipleItems = galleryItems.length > 1;
+  if (prev) prev.hidden = !hasMultipleItems;
+  if (next) next.hidden = !hasMultipleItems;
+}
+
+function showMediaItem(item) {
   const modal = document.getElementById('media-modal');
   const preview = document.getElementById('media-preview');
   const filename = document.getElementById('media-filename');
@@ -103,10 +114,25 @@ function openMediaModal(item) {
   if (filename) filename.textContent = name;
   download.href = item.downloadUrl;
   download.download = name;
+  setMediaNavState();
+}
+
+function openMediaModal(item) {
+  const modal = document.getElementById('media-modal');
+  if (!modal) return;
+  const index = galleryItems.findIndex((galleryItem) => galleryItem.id === item.id);
+  currentMediaIndex = index >= 0 ? index : 0;
+  showMediaItem(galleryItems[currentMediaIndex] || item);
 
   modal.classList.add('open');
   modal.setAttribute('aria-hidden', 'false');
   document.body.classList.add('locked');
+}
+
+function moveMedia(direction) {
+  if (!galleryItems.length || currentMediaIndex < 0) return;
+  currentMediaIndex = (currentMediaIndex + direction + galleryItems.length) % galleryItems.length;
+  showMediaItem(galleryItems[currentMediaIndex]);
 }
 
 function closeMediaModal() {
@@ -116,6 +142,7 @@ function closeMediaModal() {
   modal.classList.remove('open');
   modal.setAttribute('aria-hidden', 'true');
   if (preview) preview.innerHTML = '';
+  currentMediaIndex = -1;
   document.body.classList.remove('locked');
 }
 
@@ -236,6 +263,10 @@ function initGalleryControls() {
   const clearSelection = document.getElementById('clear-media-selection');
   const downloadSelected = document.getElementById('download-selected-media');
   const downloadSelectedStrip = document.getElementById('download-selected-media-strip');
+  const mediaModal = document.getElementById('media-modal');
+  const mediaPreview = document.getElementById('media-preview');
+  const mediaPrev = document.getElementById('media-prev');
+  const mediaNext = document.getElementById('media-next');
 
   if (selectAll) {
     selectAll.addEventListener('click', () => {
@@ -253,6 +284,24 @@ function initGalleryControls() {
 
   if (downloadSelected) downloadSelected.addEventListener('click', downloadSelectedItems);
   if (downloadSelectedStrip) downloadSelectedStrip.addEventListener('click', downloadSelectedItems);
+  if (mediaPrev) mediaPrev.addEventListener('click', () => moveMedia(-1));
+  if (mediaNext) mediaNext.addEventListener('click', () => moveMedia(1));
+
+  if (mediaPreview) {
+    mediaPreview.addEventListener('touchstart', (event) => {
+      const touch = event.changedTouches[0];
+      mediaTouchStartX = touch.clientX;
+      mediaTouchStartY = touch.clientY;
+    }, { passive: true });
+
+    mediaPreview.addEventListener('touchend', (event) => {
+      const touch = event.changedTouches[0];
+      const deltaX = touch.clientX - mediaTouchStartX;
+      const deltaY = touch.clientY - mediaTouchStartY;
+      if (Math.abs(deltaX) < 45 || Math.abs(deltaX) < Math.abs(deltaY) * 1.4) return;
+      moveMedia(deltaX < 0 ? 1 : -1);
+    }, { passive: true });
+  }
 
   document.querySelectorAll('[data-open-upload]').forEach((btn) => btn.addEventListener('click', openUploadModal));
   document.querySelectorAll('[data-close-upload]').forEach((btn) => btn.addEventListener('click', closeUploadModal));
@@ -267,6 +316,15 @@ function initGalleryControls() {
   });
 
   document.addEventListener('keydown', (event) => {
+    const mediaOpen = mediaModal?.classList.contains('open');
+    if (mediaOpen && event.key === 'ArrowLeft') {
+      moveMedia(-1);
+      return;
+    }
+    if (mediaOpen && event.key === 'ArrowRight') {
+      moveMedia(1);
+      return;
+    }
     if (event.key !== 'Escape') return;
     closeUploadModal();
     closeMediaModal();
