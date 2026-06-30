@@ -643,7 +643,7 @@ input:focus, textarea:focus, select:focus {
 
 .photo-pair {
   display: grid;
-  grid-template-columns: .9fr 1.1fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 16px;
 }
 .photo-pair img, .single-photo img {
@@ -653,6 +653,11 @@ input:focus, textarea:focus, select:focus {
   border-radius: 28px;
   box-shadow: var(--shadow-soft);
   min-height: 300px;
+}
+.photo-pair img {
+  aspect-ratio: 4 / 5;
+  height: auto;
+  min-height: 0;
 }
 .photo-pair img:nth-child(1) { transform: translateY(28px); }
 
@@ -1955,10 +1960,6 @@ select {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .photo-pair img {
-    min-height: 340px;
-  }
-
   .page-section {
     min-height: 100vh;
     padding: 52px 0 68px;
@@ -2114,7 +2115,6 @@ select {
   }
 
   .photo-pair img {
-    min-height: 230px;
     border-radius: 17px;
   }
 
