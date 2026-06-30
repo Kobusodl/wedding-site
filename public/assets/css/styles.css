@@ -1,7 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Nunito+Sans:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Allura&family=Nunito+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap');
 
 :root {
-  --font-heading: "Cormorant Garamond", Georgia, serif;
+  --font-script: "Allura", cursive;
+  --font-heading: "Playfair Display", Georgia, serif;
   --font-body: "Nunito Sans", Arial, sans-serif;
   --olive-dark: #626A59;
   --olive-deep: #343b31;
@@ -49,6 +50,50 @@ h3 {
   font-family: var(--font-heading);
 }
 
+.eyebrow,
+.btn,
+.nav-links,
+.form-row label,
+.detail-line strong,
+.info-card h3,
+.media-card label,
+.download-link,
+.selection-strip span,
+th,
+.stat span,
+.meta-pill strong,
+.meta-pill span {
+  font-family: var(--font-body);
+}
+
+.brand,
+.hero-title,
+.display-title,
+.hero-date,
+.save-date-details h2,
+.save-date-photo-card p,
+#kleredrag .section-title,
+#besonderhede .section-title,
+#rsvp-kortpad .section-title,
+#skedule .section-title,
+#akkommodasie .section-title,
+#bydrae .section-title,
+#vrae .section-title,
+#gallery-preview .section-title,
+.gallery-card .section-title,
+.script-title {
+  font-family: var(--font-script);
+  font-weight: 400;
+  letter-spacing: normal;
+}
+
+.section-title,
+.page-hero-card .section-title,
+.admin-page .section-title {
+  font-family: var(--font-heading);
+  font-weight: 600;
+}
+
 .skip-link {
   position: absolute;
   left: -999px;
@@ -91,6 +136,12 @@ h3 {
 .display-title { font-size: clamp(3.8rem, 9vw, 8.5rem); }
 .section-title { font-size: clamp(2.35rem, 5vw, 4.5rem); }
 .hero-title { font-size: clamp(3rem, 7vw, 7rem); }
+.display-title,
+.hero-title {
+  font-family: var(--font-script);
+  font-weight: 400;
+  letter-spacing: normal;
+}
 .lead {
   font-size: clamp(1.08rem, 1.6vw, 1.32rem);
   color: #54594f;
@@ -117,7 +168,8 @@ h3 {
   gap: 28px;
 }
 .brand {
-  font-family: var(--font-heading);
+  font-family: var(--font-script);
+  font-weight: 400;
   font-size: 1.55rem;
   color: var(--olive-deep);
   text-decoration: none;
@@ -228,8 +280,9 @@ h3 {
   margin: 24px auto 0;
 }
 .mobile-section-nav h2 {
-  font-family: var(--font-heading);
+  font-family: var(--font-body);
   font-size: 1.7rem;
+  font-weight: 800;
   margin: 0 0 12px;
   color: var(--olive-deep);
 }
@@ -376,14 +429,16 @@ h3 {
 
 .save-date-photo-frame.image-missing::before {
   content: "Kobus & Anika";
-  font-family: var(--font-heading);
+  font-family: var(--font-script);
+  font-weight: 400;
   font-size: 2rem;
   color: var(--olive-dark);
 }
 
 .save-date-photo-card p {
   margin: 18px 0 2px;
-  font-family: var(--font-heading);
+  font-family: var(--font-script);
+  font-weight: 400;
   font-size: clamp(1.55rem, 3vw, 2.1rem);
   line-height: 1;
 }
@@ -531,7 +586,13 @@ h3 {
   top: 6px;
   box-shadow: 0 0 0 8px rgba(98,106,89,.1);
 }
-.timeline-item strong { display: block; color: var(--olive-deep); font-size: 1.08rem; }
+.timeline-item strong {
+  display: block;
+  color: var(--olive-deep);
+  font-family: var(--font-body);
+  font-size: 1.08rem;
+  font-weight: 800;
+}
 .timeline-item span { color: var(--muted); line-height: 1.6; }
 
 .form {
@@ -1129,7 +1190,8 @@ td { color: #4f564c; }
 
 /* Premium wedding visual system */
 :root {
-  --font-heading: "Cormorant Garamond", Georgia, serif;
+  --font-script: "Allura", cursive;
+  --font-heading: "Playfair Display", Georgia, serif;
   --font-body: "Nunito Sans", Arial, sans-serif;
   --olive-dark: #626A59;
   --olive-deep: #353b32;
@@ -1226,7 +1288,42 @@ body::before {
 
 .brand {
   font-size: 1.7rem;
-  letter-spacing: -.025em;
+  font-family: var(--font-script);
+  font-weight: 400;
+  letter-spacing: normal;
+}
+
+.hero-title,
+.display-title,
+.hero-date,
+.save-date-details h2,
+.save-date-photo-card p,
+#kleredrag .section-title,
+#besonderhede .section-title,
+#rsvp-kortpad .section-title,
+#skedule .section-title,
+#akkommodasie .section-title,
+#bydrae .section-title,
+#vrae .section-title,
+#gallery-preview .section-title,
+.gallery-card .section-title,
+.script-title {
+  font-family: var(--font-script);
+  font-weight: 400;
+  letter-spacing: normal;
+}
+
+.section-title,
+.page-hero-card .section-title,
+.admin-page .section-title {
+  font-family: var(--font-heading);
+  font-weight: 600;
+}
+
+.script-title {
+  font-family: var(--font-script);
+  font-weight: 400;
+  letter-spacing: normal;
 }
 
 .nav-links a {
@@ -1453,9 +1550,10 @@ body::before {
 
 .hero-date {
   margin: 22px 0 0;
-  font-family: var(--font-heading);
+  font-family: var(--font-script);
+  font-weight: 400;
   font-size: clamp(1.35rem, 2vw, 1.9rem);
-  letter-spacing: .08em;
+  letter-spacing: normal;
   color: rgba(255, 255, 255, .94);
 }
 
@@ -1524,6 +1622,45 @@ body::before {
 .photo-pair img:last-child {
   aspect-ratio: 4 / 5;
   object-position: center;
+}
+
+#besonderhede .split > .fade-in:first-child {
+  padding: clamp(24px, 4vw, 44px);
+  border-radius: 38px;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(239, 225, 220, .11), transparent 22rem),
+    radial-gradient(circle at 100% 100%, rgba(198, 203, 202, .12), transparent 24rem),
+    #454A41;
+  color: #fffaf2;
+  box-shadow: 0 24px 64px rgba(53, 59, 50, .2);
+}
+
+#besonderhede .split > .fade-in:first-child .eyebrow,
+#besonderhede .split > .fade-in:first-child .section-title,
+#besonderhede .split > .fade-in:first-child .lead,
+#besonderhede .split > .fade-in:first-child .detail-line strong,
+#besonderhede .split > .fade-in:first-child .detail-line span,
+#besonderhede .split > .fade-in:first-child .detail-line a {
+  color: #fffaf2;
+}
+
+#besonderhede .split > .fade-in:first-child .lead,
+#besonderhede .split > .fade-in:first-child .detail-line span {
+  opacity: .88;
+}
+
+#besonderhede .split > .fade-in:first-child .detail-line {
+  border-bottom-color: rgba(255, 250, 242, .18);
+}
+
+#besonderhede .photo-pair {
+  overflow: hidden;
+  background: rgba(255, 255, 255, .38);
+  border-color: rgba(98, 106, 89, .13);
+}
+
+#besonderhede .photo-pair img:first-child {
+  transform: none;
 }
 
 .single-photo {
@@ -1969,6 +2106,11 @@ select {
     padding: 10px;
     gap: 10px;
     border-radius: 24px;
+  }
+
+  #besonderhede .split > .fade-in:first-child {
+    padding: 20px;
+    border-radius: 28px;
   }
 
   .photo-pair img {
