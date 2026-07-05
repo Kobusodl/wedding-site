@@ -682,6 +682,51 @@ input:focus, textarea:focus, select:focus {
 }
 .bank-box p { margin: 8px 0; }
 
+.gifts-section {
+  position: relative;
+}
+
+.gifts-intro {
+  max-width: 780px;
+  margin: 0 auto 28px;
+  text-align: center;
+}
+
+.gifts-intro .eyebrow {
+  justify-content: center;
+}
+
+.gift-options {
+  align-items: stretch;
+}
+
+.gift-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: clamp(24px, 4vw, 38px);
+  min-height: 100%;
+  border-color: rgba(98,106,89,.16);
+  box-shadow: 0 18px 48px rgba(53,59,50,.09);
+}
+
+.gift-card h3 {
+  margin: 0;
+  color: var(--olive-deep);
+  font-family: var(--font-heading);
+  font-size: clamp(1.45rem, 2.6vw, 2rem);
+}
+
+.gift-card p:not(.eyebrow) {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.gift-card .btn {
+  margin-top: auto;
+}
+
 .dress-code-layout {
   grid-template-columns: .92fr 1.08fr;
 }

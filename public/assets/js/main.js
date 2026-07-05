@@ -46,7 +46,7 @@ function initContributionToggle() {
   if (!btn || !panel) return;
   btn.addEventListener('click', () => {
     const open = panel.classList.toggle('open');
-    btn.textContent = open ? 'Versteek bankbesonderhede' : 'Klik hier vir besonderhede';
+    btn.textContent = open ? 'Versteek bankbesonderhede' : 'Wys bankbesonderhede';
   });
 }
 
