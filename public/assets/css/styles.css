@@ -727,6 +727,63 @@ input:focus, textarea:focus, select:focus {
   margin-top: auto;
 }
 
+.accommodation-card {
+  padding: clamp(24px, 4vw, 42px);
+}
+
+.accommodation-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 28px;
+}
+
+.stay-card {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  border: 1px solid rgba(98,106,89,.15);
+  border-radius: 26px;
+  background: rgba(255,255,255,.72);
+  box-shadow: 0 16px 42px rgba(53,59,50,.1);
+}
+
+.stay-card img {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  display: block;
+  filter: saturate(.9) contrast(.96);
+}
+
+.stay-card-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 12px;
+  padding: 18px;
+}
+
+.stay-card-body span {
+  color: var(--olive-dark);
+  font-size: .78rem;
+  font-weight: 850;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.stay-card-body h3 {
+  margin: 0;
+  color: var(--olive-deep);
+  font-family: var(--font-heading);
+  font-size: clamp(1.35rem, 2vw, 1.75rem);
+}
+
+.stay-card-body .btn {
+  margin-top: auto;
+}
+
 .dress-code-layout {
   grid-template-columns: .92fr 1.08fr;
 }
@@ -2087,6 +2144,10 @@ select {
 
   .dress-code-moodboard img {
     min-height: 170px;
+  }
+
+  .accommodation-grid {
+    grid-template-columns: 1fr;
   }
 
   #vrae .faq-card .grid-3 {
