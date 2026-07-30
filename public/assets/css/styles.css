@@ -1284,6 +1284,17 @@ td { color: #4f564c; }
     padding: 22px;
   }
   .media-modal-card { border-radius: 26px 26px 0 0; }
+  #media-modal .modal-close {
+    position: fixed;
+    top: max(12px, calc(env(safe-area-inset-top) + 10px));
+    right: max(12px, calc(env(safe-area-inset-right) + 10px));
+    z-index: 260;
+    width: 50px;
+    height: 50px;
+    background: #454A41;
+    color: #fffaf2;
+    box-shadow: 0 14px 36px rgba(47,51,44,.28);
+  }
   .media-modal-footer { flex-direction: column; align-items: stretch; }
   .media-nav {
     width: 42px;
@@ -1815,7 +1826,7 @@ body::before {
 }
 
 #vrae .faq-card .grid-3 {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
 }
 
 #vrae .faq-card .info-card {
