@@ -2557,3 +2557,44 @@ select {
     padding: 11px 10px;
   }
 }
+
+
+/* Final fix: make Gallery preview close button fully clickable */
+#media-modal .media-modal-card {
+  position: relative;
+}
+
+#media-modal .media-preview-shell,
+#media-modal .media-preview {
+  position: relative;
+  z-index: 1;
+}
+
+#media-modal .modal-close,
+#media-modal [data-close-media] {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  z-index: 9999;
+  width: 56px;
+  height: 56px;
+  min-width: 56px;
+  min-height: 56px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border-radius: 999px;
+  pointer-events: auto;
+  touch-action: manipulation;
+  line-height: 1;
+}
+
+#media-modal .modal-close::before,
+#media-modal .modal-close::after {
+  pointer-events: none;
+}
+
+#media-modal .media-preview img,
+#media-modal .media-preview video {
+  pointer-events: none;
+}
