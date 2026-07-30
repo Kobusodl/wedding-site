@@ -305,7 +305,14 @@ function initGalleryControls() {
 
   document.querySelectorAll('[data-open-upload]').forEach((btn) => btn.addEventListener('click', openUploadModal));
   document.querySelectorAll('[data-close-upload]').forEach((btn) => btn.addEventListener('click', closeUploadModal));
-  document.querySelectorAll('[data-close-media]').forEach((btn) => btn.addEventListener('click', closeMediaModal));
+
+  document.addEventListener('click', (event) => {
+    const closeButton = event.target.closest?.('[data-close-media]');
+    if (!closeButton) return;
+    event.preventDefault();
+    event.stopPropagation();
+    closeMediaModal();
+  });
 
   document.querySelectorAll('.modal-overlay').forEach((modal) => {
     modal.addEventListener('click', (event) => {
