@@ -1201,6 +1201,15 @@ td { color: #4f564c; }
 }
 .modal-close:hover { background: rgba(98,106,89,.22); }
 .media-modal-card { width: min(980px, 100%); padding: 18px; }
+@media (min-width: 641px) {
+  .media-modal-card .modal-close {
+    z-index: 30;
+    display: grid;
+    place-items: center;
+    padding: 0;
+    line-height: 1;
+  }
+}
 .media-preview-shell {
   position: relative;
 }
