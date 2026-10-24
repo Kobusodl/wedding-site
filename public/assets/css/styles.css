@@ -248,6 +248,12 @@ th,
 .hero-content .hero-title { color: white; }
 .hero-content .lead { color: rgba(255,255,255,.88); }
 .hero-actions { margin-top: 30px; display: flex; gap: 14px; flex-wrap: wrap; }
+.hero-gallery-copy .hero-day-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.hero-day-actions .btn { min-width: 0; padding-inline: 10px; text-align: center; }
+.hero-day-actions .full { grid-column: 1 / -1; }
 .hero-meta {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
