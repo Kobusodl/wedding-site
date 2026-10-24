@@ -1687,6 +1687,10 @@ body::before {
   color: rgba(255, 255, 255, .94);
 }
 
+.hero-gallery-copy .hero-date {
+  color: var(--olive-deep);
+}
+
 .hero-content .btn-secondary {
   color: white;
   background: rgba(255, 255, 255, .12);
