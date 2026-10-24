@@ -343,4 +343,7 @@ window.afterSuccessfulUpload = async function afterSuccessfulUpload() {
 };
 
 initGalleryControls();
+if (new URLSearchParams(window.location.search).get('upload') === '1') {
+  openUploadModal();
+}
 loadGallery();
