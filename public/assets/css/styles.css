@@ -1584,16 +1584,19 @@ body::before {
 }
 
 .hero-marquee-track {
+  --hero-marquee-gap: 22px;
   display: flex;
   width: max-content;
-  gap: 22px;
+  gap: var(--hero-marquee-gap);
   animation: heroMarquee 54s linear infinite;
   will-change: transform;
 }
 
 .hero-gallery-card {
   position: relative;
-  flex: 0 0 clamp(250px, 20vw, 340px);
+  flex: 0 0 auto;
+  width: clamp(250px, 20vw, 340px);
+  min-width: 0;
   height: clamp(390px, 43vw, 520px);
   margin: 0;
   overflow: hidden;
@@ -1609,11 +1612,12 @@ body::before {
   transition: transform .28s ease, box-shadow .28s ease, filter .28s ease;
 }
 
-.hero-gallery-card:nth-child(2n) {
+.hero-gallery-card:nth-child(5n + 2),
+.hero-gallery-card:nth-child(5n + 4) {
   transform: translateY(-16px);
 }
 
-.hero-gallery-card:nth-child(3n) {
+.hero-gallery-card:nth-child(5n + 3) {
   transform: translateY(28px);
 }
 
@@ -1641,7 +1645,7 @@ body::before {
 
 @keyframes heroMarquee {
   from { transform: translateX(0); }
-  to { transform: translateX(calc(-50% - 11px)); }
+  to { transform: translateX(calc(-50% - var(--hero-marquee-gap) / 2)); }
 }
 
 .hero-desktop {
@@ -2156,7 +2160,7 @@ select {
   }
 
   .hero-gallery-card {
-    flex-basis: clamp(230px, 64vw, 310px);
+    width: clamp(230px, 64vw, 310px);
     height: min(430px, 108vw);
     border-radius: 24px;
   }
@@ -2224,12 +2228,12 @@ select {
   }
 
   .hero-marquee-track {
-    gap: 14px;
+    --hero-marquee-gap: 14px;
     animation-duration: 48s;
   }
 
   .hero-gallery-card {
-    flex-basis: 68vw;
+    width: 68vw;
     height: min(380px, 108vw);
   }
 
