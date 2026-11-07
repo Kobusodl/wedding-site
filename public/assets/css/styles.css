@@ -686,6 +686,73 @@ input:focus, textarea:focus, select:focus {
 }
 .bank-box p { margin: 8px 0; }
 
+.post-wedding-message {
+  margin: 16px 0 0;
+  color: var(--olive-deep);
+  font-size: 1.05rem;
+  line-height: 1.65;
+}
+
+.post-wedding-contribution {
+  scroll-margin-top: 78px;
+}
+
+.post-wedding-contribution.section.compact {
+  padding-top: 0;
+}
+
+.contribution-details {
+  padding: clamp(20px, 4vw, 36px);
+  background: #454A41;
+  border: 1px solid rgba(255, 255, 255, .18);
+  border-radius: 26px;
+  color: #fffaf2;
+  box-shadow: var(--shadow-soft);
+}
+
+.contribution-details h3 {
+  margin: 0 0 16px;
+  font-size: clamp(1.35rem, 3vw, 1.8rem);
+}
+
+.contribution-details dl,
+.contribution-details dd {
+  margin: 0;
+}
+
+.contribution-details dl > div {
+  display: grid;
+  grid-template-columns: minmax(8rem, .75fr) minmax(0, 1.25fr);
+  gap: 4px 16px;
+  padding: 12px 0;
+  border-top: 1px solid rgba(255, 250, 242, .2);
+}
+
+.contribution-details dt {
+  color: #e0e2d8;
+  font-size: .9rem;
+}
+
+.contribution-details dd {
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.footer.post-wedding-footer {
+  margin-top: 0;
+  padding: 30px 0;
+}
+
+@media (max-width: 640px) {
+  .post-wedding-contribution {
+    scroll-margin-top: 16px;
+  }
+
+  .contribution-details dl > div {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
 .gifts-section {
   position: relative;
 }
