@@ -2,7 +2,31 @@ let galleryItems = [];
 let currentMediaIndex = -1;
 let mediaTouchStartX = 0;
 let mediaTouchStartY = 0;
+let nextGalleryCursor = null;
+let galleryLoading = false;
+let galleryLoaded = false;
 window.galleryUploadsAvailable = true;
+
+function isHeicPhoto(item) {
+  return /hei[cf]/i.test(item.mime_type || '') || /\.hei[cf]$/i.test(item.original_filename || '');
+}
+
+function loadGridPhoto(img, inView) {
+  if (inView) img.fetchPriority = 'high';
+  img.src = img.dataset.src;
+  delete img.dataset.src;
+}
+
+const gridPhotoObserver = typeof IntersectionObserver === 'function'
+  ? new IntersectionObserver((entries) => {
+    for (const entry of entries) {
+      if (!entry.isIntersecting) continue;
+      gridPhotoObserver.unobserve(entry.target);
+      const { top, bottom } = entry.boundingClientRect;
+      loadGridPhoto(entry.target, top < window.innerHeight && bottom > 0);
+    }
+  }, { rootMargin: '120px 0px' })
+  : null;
 
 function mediaFileName(item) {
   return item.original_filename || `${item.id}.${item.media_type === 'video' ? 'mp4' : 'jpg'}`;
@@ -63,7 +87,8 @@ function applyUploadState(uploadState = {}) {
   }
   if (form) {
     form.querySelectorAll('input, button[type="submit"]').forEach((control) => {
-      control.disabled = !available;
+      control.disabled = !available || (window.galleryUploadInProgress &&
+        control.matches('#media-files, button[type="submit"]'));
     });
   }
 }
@@ -79,7 +104,7 @@ function closeUploadModal() {
 function setMediaNavState() {
   const prev = document.getElementById('media-prev');
   const next = document.getElementById('media-next');
-  const hasMultipleItems = galleryItems.length > 1;
+  const hasMultipleItems = galleryItems.length > 1 || Boolean(nextGalleryCursor);
   if (prev) prev.hidden = !hasMultipleItems;
   if (next) next.hidden = !hasMultipleItems;
 }
@@ -91,6 +116,7 @@ function showMediaItem(item) {
   const download = document.getElementById('media-download-link');
   if (!modal || !preview || !download) return;
 
+  document.getElementById('media-page-status').hidden = true;
   preview.innerHTML = '';
   let el;
   if (item.media_type === 'video') {
@@ -99,7 +125,7 @@ function showMediaItem(item) {
     el.controls = true;
     el.autoplay = false;
     el.playsInline = true;
-  } else if ((item.mime_type || '').includes('heic')) {
+  } else if (isHeicPhoto(item)) {
     el = document.createElement('img');
     el.src = '/assets/images/gallery-placeholder.jpg';
     el.alt = 'HEIC foto voorskou nie beskikbaar nie';
@@ -129,8 +155,22 @@ function openMediaModal(item) {
   document.body.classList.add('locked');
 }
 
-function moveMedia(direction) {
+async function moveMedia(direction) {
   if (!galleryItems.length || currentMediaIndex < 0) return;
+  if (direction > 0 && currentMediaIndex === galleryItems.length - 1 && nextGalleryCursor) {
+    if (galleryLoading) return;
+    const previousIndex = currentMediaIndex;
+    const previousId = galleryItems[previousIndex].id;
+    const status = document.getElementById('media-page-status');
+    status.textContent = 'Besig om meer items te laai…';
+    status.hidden = false;
+    const loaded = await loadGallery({ append: true });
+    if (galleryItems[currentMediaIndex]?.id !== previousId) return;
+    if (!loaded) {
+      status.textContent = 'Meer items kon nie laai nie. Probeer asseblief weer.';
+      return;
+    }
+  }
   currentMediaIndex = (currentMediaIndex + direction + galleryItems.length) % galleryItems.length;
   showMediaItem(galleryItems[currentMediaIndex]);
 }
@@ -146,18 +186,16 @@ function closeMediaModal() {
   document.body.classList.remove('locked');
 }
 
-function renderGallery(items, options = {}) {
+function renderGallery(items, { append = false } = {}) {
   const grid = document.getElementById('gallery-grid');
-  const empty = document.getElementById('gallery-empty');
   if (!grid) return;
 
-  grid.innerHTML = '';
-  if (!items.length) {
-    if (empty) empty.style.display = 'block';
-    updateSelectionState();
-    return;
+  if (!append) {
+    gridPhotoObserver?.disconnect();
+    grid.replaceChildren();
   }
-  if (empty) empty.style.display = 'none';
+  const cards = document.createDocumentFragment();
+  const photos = [];
 
   for (const item of items) {
     const card = document.createElement('article');
@@ -170,24 +208,39 @@ function renderGallery(items, options = {}) {
     mediaButton.setAttribute('aria-label', `Maak ${mediaFileName(item)} oop`);
     mediaButton.addEventListener('click', () => openMediaModal(item));
 
-    let mediaEl;
+    const tile = document.createElement('span');
+    tile.className = 'gallery-tile';
+    const placeholder = document.createElement('span');
+    placeholder.className = 'gallery-tile-label';
+    placeholder.setAttribute('aria-hidden', 'true');
+    tile.appendChild(placeholder);
     if (item.media_type === 'video') {
-      mediaEl = document.createElement('video');
-      mediaEl.src = item.url;
-      mediaEl.muted = true;
-      mediaEl.playsInline = true;
-      mediaEl.preload = 'metadata';
-    } else if ((item.mime_type || '').includes('heic')) {
-      mediaEl = document.createElement('img');
-      mediaEl.src = '/assets/images/gallery-placeholder.jpg';
-      mediaEl.alt = 'HEIC foto';
+      placeholder.textContent = 'Video';
+      tile.classList.add('gallery-video-tile');
     } else {
-      mediaEl = document.createElement('img');
-      mediaEl.src = item.url;
-      mediaEl.alt = item.original_filename || 'Troufoto';
-      mediaEl.loading = 'lazy';
+      const img = document.createElement('img');
+      img.alt = '';
+      img.decoding = 'async';
+      const heic = isHeicPhoto(item);
+      let fallback = !heic && item.thumbnailUrl && item.thumbnailUrl !== item.url ? item.url : '';
+      img.dataset.src = heic
+        ? '/assets/images/gallery-placeholder.jpg' : (item.thumbnailUrl || item.url);
+      placeholder.textContent = 'Foto laai…';
+      img.addEventListener('load', () => tile.classList.add('photo-loaded'), { once: true });
+      img.addEventListener('error', () => {
+        if (fallback) {
+          const original = fallback;
+          fallback = '';
+          img.src = original;
+          return;
+        }
+        img.remove();
+        placeholder.textContent = 'Foto kon nie laai nie';
+      });
+      tile.appendChild(img);
+      photos.push(img);
     }
-    mediaButton.appendChild(mediaEl);
+    mediaButton.appendChild(tile);
 
     const selectPill = document.createElement('label');
     selectPill.className = 'select-pill';
@@ -215,34 +268,77 @@ function renderGallery(items, options = {}) {
     download.download = mediaFileName(item);
     download.textContent = 'Laai af';
 
-    if (options.selectable === false) selectPill.style.display = 'none';
     footer.appendChild(openBtn);
     footer.appendChild(download);
 
     card.appendChild(mediaButton);
     card.appendChild(selectPill);
     card.appendChild(footer);
-    grid.appendChild(card);
+    cards.appendChild(card);
+  }
+  grid.appendChild(cards);
+  for (const img of photos) {
+    if (gridPhotoObserver) gridPhotoObserver.observe(img);
+    else {
+      img.loading = 'lazy';
+      loadGridPhoto(img, false);
+    }
   }
   updateSelectionState();
 }
 
-async function loadGallery(options = {}) {
+async function loadGallery({ append = false } = {}) {
   const grid = document.getElementById('gallery-grid');
-  if (!grid) return;
+  const status = document.getElementById('gallery-empty');
+  const more = document.getElementById('gallery-more');
+  if (!grid || galleryLoading || (append && !nextGalleryCursor)) return false;
+
+  galleryLoading = true;
+  grid.setAttribute('aria-busy', 'true');
+  more.disabled = true;
+  more.hidden = !append;
+  more.textContent = 'Besig om te laai…';
+  status.hidden = append || galleryItems.length > 0;
+  status.textContent = 'Besig om die gallery te laai…';
   try {
-    const response = await fetch('/api/gallery');
+    const params = new URLSearchParams({ page: '1' });
+    if (append) params.set('cursor', nextGalleryCursor);
+    const response = await fetch(`/api/gallery?${params}`);
     const result = await response.json().catch(() => ({}));
-    if (!response.ok) throw new Error(result.error || 'Gallery kon nie gelaai word nie.');
-    galleryItems = result.items || [];
-    renderGallery(galleryItems, options);
-    applyUploadState(result.uploadState || {});
-  } catch (error) {
-    const empty = document.getElementById('gallery-empty');
-    if (empty) {
-      empty.style.display = 'block';
-      empty.textContent = error.message || 'Gallery kon nie gelaai word nie.';
+    if (!response.ok || !Array.isArray(result.items)) throw new Error();
+
+    const seen = new Set(append ? galleryItems.map((item) => item.id) : []);
+    const items = result.items.filter((item) => {
+      if (seen.has(item.id)) return false;
+      seen.add(item.id);
+      return true;
+    });
+    const previewId = galleryItems[currentMediaIndex]?.id;
+    galleryItems = append ? [...galleryItems, ...items] : items;
+    if (!append && previewId) {
+      currentMediaIndex = galleryItems.findIndex((item) => item.id === previewId);
+      if (currentMediaIndex < 0) closeMediaModal();
     }
+    nextGalleryCursor = result.nextCursor || null;
+    galleryLoaded = true;
+    renderGallery(items, { append });
+    if (result.uploadState) applyUploadState(result.uploadState);
+    setMediaNavState();
+    status.textContent = 'Die gallery is nog leeg.';
+    status.hidden = galleryItems.length > 0;
+    more.hidden = !nextGalleryCursor;
+    more.textContent = "Laai meer foto's";
+    return true;
+  } catch {
+    status.textContent = 'Die gallery kon nie laai nie. Probeer asseblief weer.';
+    status.hidden = false;
+    more.hidden = false;
+    more.textContent = 'Probeer weer';
+    return false;
+  } finally {
+    galleryLoading = false;
+    grid.setAttribute('aria-busy', 'false');
+    more.disabled = false;
   }
 }
 
@@ -267,6 +363,9 @@ function initGalleryControls() {
   const mediaPreview = document.getElementById('media-preview');
   const mediaPrev = document.getElementById('media-prev');
   const mediaNext = document.getElementById('media-next');
+  document.getElementById('gallery-more')?.addEventListener('click', () => {
+    loadGallery({ append: galleryLoaded && Boolean(nextGalleryCursor) });
+  });
 
   if (selectAll) {
     selectAll.addEventListener('click', () => {

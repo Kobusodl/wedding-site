@@ -83,25 +83,9 @@ export async function getMediaStorageStatus(env) {
   };
 }
 
-export function getFileExtension(filename = '') {
-  const clean = String(filename).toLowerCase().split('?')[0].split('#')[0];
-  const part = clean.includes('.') ? clean.split('.').pop() : '';
-  return part.replace(/[^a-z0-9]/g, '').slice(0, 8);
-}
-
 export function safeFileName(filename = 'media') {
   const trimmed = String(filename || 'media').trim() || 'media';
   return trimmed.replace(/[^a-zA-Z0-9._-]/g, '-').replace(/-+/g, '-').slice(0, 120);
-}
-
-export function classifyUpload(file) {
-  const mime = String(file.type || '').toLowerCase();
-  const ext = getFileExtension(file.name);
-  const imageExt = ['jpg', 'jpeg', 'png', 'webp', 'heic'];
-  const videoExt = ['mp4', 'mov'];
-  if (mime.startsWith('image/') || imageExt.includes(ext)) return 'image';
-  if (mime.startsWith('video/') || videoExt.includes(ext)) return 'video';
-  return 'other';
 }
 
 export function mediaUrl(id, download = false) {
