@@ -1,5 +1,9 @@
 const uploadForm = document.getElementById('upload-form');
 const progressList = document.getElementById('upload-progress');
+const fileInput = document.getElementById('media-files');
+const MAX_UPLOAD_PHOTOS = 200;
+const MAX_UPLOAD_VIDEOS = 2;
+let uploadBatch = null;
 
 function uploadStatus(message, type = 'info') {
   const status = document.getElementById('upload-status');
@@ -30,8 +34,9 @@ function validateBatch(files) {
   const invalidFiles = files.filter((file) => classifyFile(file) === 'other');
 
   if (invalidFiles.length) return 'Gebruik asseblief net foto’s of video’s: jpg, jpeg, png, webp, heic, mp4 of mov.';
-  if (imageFiles.length > 30) return 'Laai asseblief maksimum 30 foto’s op een slag op.';
-  if (videoFiles.length > 2) return 'Laai asseblief maksimum 2 video’s op een slag op.';
+  if (imageFiles.length > MAX_UPLOAD_PHOTOS) return `Laai asseblief maksimum ${MAX_UPLOAD_PHOTOS} foto’s op een slag op.`;
+  if (videoFiles.length > MAX_UPLOAD_VIDEOS) return `Laai asseblief maksimum ${MAX_UPLOAD_VIDEOS} video’s op een slag op.`;
+  if (files.some((file) => file.size === 0)) return 'Die keuse bevat ’n leë lêer.';
 
   for (const file of imageFiles) {
     if (file.size > 10 * 1024 * 1024) return `${file.name} is groter as 10 MB.`;
@@ -53,20 +58,49 @@ async function preflightBatch({ password, files }) {
   preflightForm.append('preflight', 'true');
   preflightForm.append('batchManifest', JSON.stringify(batchManifest));
 
-  const response = await fetch('/api/upload', { method: 'POST', body: preflightForm });
+  let response;
+  try {
+    response = await fetch('/api/upload', { method: 'POST', body: preflightForm });
+  } catch {
+    throw new Error('Die verbinding het onderbreek. Probeer asseblief weer.');
+  }
   const result = await response.json().catch(() => ({}));
-  if (!response.ok) throw new Error(result.error || 'Die oplaai-batch kon nie aanvaar word nie.');
+  if (!response.ok || result.ok !== true) {
+    throw new Error(result.error || 'Die oplaai-batch kon nie aanvaar word nie.');
+  }
 }
 
-if (uploadForm) {
+function describeUploadBatch(batch) {
+  const photos = batch.filter((entry) => entry.mediaType === 'image');
+  const videos = batch.filter((entry) => entry.mediaType === 'video');
+  const successes = (entries) => entries.filter((entry) => entry.state === 'done').length;
+  return [
+    photos.length && `${successes(photos)} van ${photos.length} foto’s opgelaai`,
+    videos.length && `${successes(videos)} van ${videos.length} video’s opgelaai`
+  ].filter(Boolean).join(' · ');
+}
+
+if (uploadForm && fileInput) {
+  const submitBtn = uploadForm.querySelector('button[type="submit"]');
+  fileInput.addEventListener('change', () => {
+    uploadBatch = null;
+    submitBtn.textContent = 'Laai op';
+    progressList?.replaceChildren();
+    const status = document.getElementById('upload-status');
+    if (status) {
+      status.textContent = '';
+      status.className = 'status';
+    }
+  });
+
   uploadForm.addEventListener('submit', async (event) => {
     event.preventDefault();
-    const submitBtn = uploadForm.querySelector('button[type="submit"]');
+    if (window.galleryUploadInProgress || window.galleryUploadsAvailable === false) return;
     const form = new FormData(uploadForm);
     const password = String(form.get('password') || '').trim();
     const uploaderName = String(form.get('uploaderName') || '').trim();
     const uploaderMessage = String(form.get('uploaderMessage') || '').trim();
-    const files = Array.from(document.getElementById('media-files')?.files || []);
+    const files = Array.from(fileInput.files || []);
 
     if (!password) {
       uploadStatus('Vul asseblief die trou-wagwoord in.', 'error');
@@ -82,38 +116,77 @@ if (uploadForm) {
       return;
     }
 
-    submitBtn.disabled = true;
+    uploadBatch ||= files.map((file) => ({ file, mediaType: classifyFile(file), state: 'pending' }));
+    const pending = uploadBatch.filter(({ state }) => state === 'pending' || state === 'failed');
+    if (!pending.length) {
+      uploadStatus('Kyk eers in die gallery vir die lêers waarvan die oplaai onseker is.', 'error');
+      return;
+    }
+
+    window.galleryUploadInProgress = true;
+    submitBtn.disabled = fileInput.disabled = true;
     uploadStatus('Kontroleer die oplaai-batch...', 'info');
 
     let uploaded = 0;
+    let stopMessage = '';
     try {
-      await preflightBatch({ password, files });
-      uploadStatus('Besig om op te laai...', 'info');
+      await preflightBatch({ password, files: pending.map(({ file }) => file) });
 
-      for (const file of files) {
+      for (const entry of pending) {
+        const { file } = entry;
+        uploadStatus(`${describeUploadBatch(uploadBatch)}. Besig met: ${file.name}`, 'info');
         const itemForm = new FormData();
         itemForm.append('password', password);
         itemForm.append('uploaderName', uploaderName);
         itemForm.append('uploaderMessage', uploaderMessage);
         itemForm.append('file', file);
-        addProgress(`Laai op: ${file.name}`);
-        const response = await fetch('/api/upload', { method: 'POST', body: itemForm });
-        const result = await response.json().catch(() => ({}));
-        if (!response.ok) throw new Error(result.error || `${file.name} kon nie opgelaai word nie.`);
-        uploaded += 1;
-        addProgress(`Klaar: ${file.name}`);
-      }
-      uploadStatus(`Dankie! ${uploaded} item(s) is opgelaai.`, 'success');
-      uploadForm.reset();
-      if (typeof window.afterSuccessfulUpload === 'function') {
-        await window.afterSuccessfulUpload();
-      } else if (typeof loadGallery === 'function') {
-        await loadGallery();
+        try {
+          const response = await fetch('/api/upload', { method: 'POST', body: itemForm });
+          const result = await response.json().catch(() => ({}));
+          if (response.ok && result.ok === true) {
+            entry.state = 'done';
+            uploaded += 1;
+          } else if ([400, 413, 415, 422].includes(response.status)) {
+            entry.state = 'failed';
+            entry.message = result.error || 'Die lêer is geweier.';
+          } else if ([401, 403, 409, 429].includes(response.status)) {
+            stopMessage = result.error || 'Oplaai is gestop. Probeer asseblief later weer.';
+            break;
+          } else {
+            throw new Error('Upload result unknown');
+          }
+        } catch {
+          // The server may have saved this file before the connection dropped.
+          entry.state = 'unknown';
+          stopMessage = 'Die oplaai kon nie bevestig word nie. Kyk eers in die gallery voordat jy dié lêer weer kies.';
+          break;
+        }
       }
     } catch (error) {
-      uploadStatus(error.message || 'Jammer, iets het fout gegaan met die upload.', 'error');
+      stopMessage = error.message || 'Die oplaai-batch kon nie aanvaar word nie.';
     } finally {
-      submitBtn.disabled = window.galleryUploadsAvailable === false;
+      const failed = uploadBatch.filter(({ state }) => state === 'failed');
+      const unknown = uploadBatch.filter(({ state }) => state === 'unknown');
+      const remaining = uploadBatch.filter(({ state }) => state === 'pending').length;
+      const complete = !failed.length && !unknown.length && !remaining;
+      const summary = [
+        describeUploadBatch(uploadBatch),
+        failed.length && `${failed.length} misluk`,
+        unknown.length && `${unknown.length} onbevestig`,
+        remaining && `${remaining} nog nie opgelaai nie`
+      ].filter(Boolean).join(' · ');
+      progressList?.replaceChildren();
+      failed.forEach(({ file, message }) => addProgress(`Misluk: ${file.name} — ${message}`));
+      unknown.forEach(({ file }) => addProgress(`Onbevestig: ${file.name} — kyk eers in die gallery.`));
+      uploadStatus(`${complete ? 'Dankie! ' : ''}${summary}.${stopMessage ? ` ${stopMessage}` : ''}`, complete ? 'success' : 'error');
+      if (complete) {
+        uploadForm.reset();
+        uploadBatch = null;
+      }
+      submitBtn.textContent = failed.length || remaining ? 'Probeer oorblywende lêers weer' : 'Laai op';
+      window.galleryUploadInProgress = false;
+      submitBtn.disabled = fileInput.disabled = window.galleryUploadsAvailable === false;
     }
+    if (uploaded) await window.afterSuccessfulUpload?.();
   });
 }

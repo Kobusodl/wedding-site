@@ -67,10 +67,12 @@ MAX_PHOTO_MB = "15"
 MAX_VIDEO_MB = "50"
 MAX_TOTAL_STORAGE_MB = "9000"
 MAX_TOTAL_MEDIA_ITEMS = "1500"
-MAX_UPLOADS_PER_HOUR_PER_IP = "80"
+MAX_UPLOADS_PER_HOUR_PER_IP = "240"
 ```
 
 Vir production is dit beter om die admin password in Cloudflare Dashboard as ’n environment variable/secret te stel.
+
+Die gallery aanvaar tot 200 foto's en 2 video's per keuse. Die limiet van 240 lêers per uur geld per IP-adres, ook wanneer gaste dieselfde Wi-Fi gebruik. As die Pages-projek die limiet in die Dashboard stel, moet daardie waarde ook 240 wees. Geen nuwe bindings of databasismigrasie is nodig nie.
 
 ## 7. Local development
 
@@ -79,6 +81,41 @@ npm run dev
 ```
 
 Maak dan die local URL oop wat Wrangler wys.
+
+Gallery-toetse sonder toegang tot produksiedata (Node.js 22+):
+
+```bash
+node --test test/gallery.test.js test/media-security.test.js
+node test/serve-gallery.js
+```
+
+Die tweede opdrag bedien 'n plaaslike gallery by `http://127.0.0.1:8821/gallery/` met toetsdata en vertraagde antwoorde.
+
+Die gallery se foto- en video-skakels gebruik `v=2` om ou blaaierkasinskrywings te omseil. Ná publikasie moet enige bestaande edge-kas vir die ou media-URL's skoongemaak word as die projek dit gebruik. Die nuwe kode kan nie reeds gestoorde kopieë van ou direkte skakels uit besoekers se blaaiers verwyder nie.
+
+Om die WebP-pad plaaslik na te boots, gebruik Python met Pillow:
+
+```bash
+python test/make-gallery-images.py node_modules/.gallery-thumbnail-fixtures
+node test/serve-gallery.js node_modules/.gallery-thumbnail-fixtures
+```
+
+Dit toets plaaslike WebP-antwoorde en nagebootste 429- en 503-foute. Dit gebruik nie Cloudflare of produksiedata nie.
+
+### Opsioneel: kleiner gallery-foto's
+
+Die gallery gebruik oorspronklike foto's totdat jy die opsionele thumbnail-gasheer instel. Geen produksiedata hoef te verander nie.
+
+1. Koppel 'n [Cloudflare-geproxyde eie gasheernaam](https://developers.cloudflare.com/pages/configuration/custom-domains/) aan dieselfde Pages-projek. Bevestig dat die bestaande `/media/<id>`-roete daar werk.
+2. Aktiveer [Images Transformations](https://developers.cloudflare.com/images/optimization/transformations/overview/) vir daardie Cloudflare-sone. Hou die bronbeperking op toegelate oorspronge; moenie die R2-bucket openbaar maak nie.
+3. Stel die Pages-omgewingsveranderlike `GALLERY_THUMBNAIL_HOST` op net die gasheernaam, byvoorbeeld `photos.example.com` (sonder `https://`, pad of poort). As jy `wrangler.toml` as die konfigurasiebron gebruik, voeg dit by die toepaslike `[vars]`. Voeg eers dié instelling by nadat die transformasie-URL 'n WebP teruggee. Die bestaande `pages.dev`-skakel kan dan dieselfde thumbnail-gasheer gebruik.
+4. Bevestig in 'n toetsontplooiing dat gallery-teëls WebP gebruik, voorskoue en aflaaie steeds `/media/` gebruik, en herhaalde thumbnail-versoeke die kas gebruik.
+
+Daar is een 400px WebP-variant (kwaliteit 78), sonder opsny of vergroting. Bestaande en nuwe JPEG-, PNG- en WebP-foto's word op aanvraag verwerk. Daar is geen backfill, nuwe binding, aparte Worker of ekstra R2-voorwerpe nie. As die transformasie misluk, probeer die teël die oorspronklike foto een keer.
+
+Die [Images Free-limiet](https://developers.cloudflare.com/images/pricing/#images-free) is 5 000 unieke transformasies per kalendermaand vir die rekening. Ongeveer 220 foto's beteken hoogstens ongeveer 220 unieke gallery-transformasies vir die vaste variant as almal in daardie maand bekyk word; ander gebruik op die rekening tel ook. Moenie 'n betaalde plan aktiveer sonder goedkeuring nie.
+
+Cloudflare kas die afgeleide foto's volgens die bron se kasbeleid. Wanneer 'n foto versteek of verwyder word, [purge die oorspronklike bron-URL op die thumbnail-gasheer](https://developers.cloudflare.com/images/reference/troubleshooting/#caching-and-purging) om ook die afgeleide weergawe van die edge-kas te verwyder. Dit kan nie kopieë uit besoekers se blaaierkas terugroep nie.
 
 ## 8. Deploy na Cloudflare Pages
 
