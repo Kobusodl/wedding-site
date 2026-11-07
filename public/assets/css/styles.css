@@ -2334,6 +2334,36 @@ select {
     grid-template-columns: 1fr 1fr;
   }
 
+  .hero-gallery-copy {
+    display: flex;
+    flex-direction: column;
+    padding-block: 16px;
+  }
+
+  .hero-gallery-copy .eyebrow {
+    margin-bottom: 6px;
+  }
+
+  .hero-gallery-copy .hero-title {
+    font-size: clamp(2.625rem, 12.2vw, 3.65rem);
+  }
+
+  .hero-gallery-copy .hero-date {
+    margin-top: 6px;
+  }
+
+  .hero-gallery-copy .hero-day-actions {
+    gap: 10px;
+    margin-top: 12px;
+  }
+
+  .hero-gallery-copy .post-wedding-message {
+    order: 1;
+    margin-top: 12px;
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+
   .mobile-section-nav h2 {
     font-size: 1.45rem;
   }
